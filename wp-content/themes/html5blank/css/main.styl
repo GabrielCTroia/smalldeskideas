@@ -1,0 +1,392 @@
+/* - $VARS ------------------------------------------------------- */
+
+/* - $VARS --- $SIZES -------------------------------------------- */
+
+
+/* - $VARS --- $COLORS ------------------------------------------- */
+
+$white          = white
+$greyLight      = #eaeaea 
+$grey           = #ddd
+$greyDark       = #bbb
+$black          = #333
+
+
+$orange         = #ff803c
+$orangeLight    = #ff803c
+$orangeShadow   = #401D0A
+
+$blue           = #30a0c8
+$blueLight      = #00BCFF
+$blueShadow     = #005E7F
+$blueDark       = #002F40
+
+
+
+
+$primaryColor           = $blue
+$primaryColorHighlight  = $blueLight
+$primaryColorShadow     = $blueShadow
+
+$secondaryColor = $blueDark
+
+$textColor           = $black
+$textColorNeutral    = $greyDark
+$textColorInvert     = $greyLight
+
+
+
+
+
+
+
+
+
+/* - $METHODS ---------------------------------------------------- */
+
+
+
+
+
+Vendor(prop, args)
+  -webkit-{prop} args
+	-moz-{prop} args
+	-ms-{prop} args
+	-o-{prop} args
+	{prop} args
+
+
+FadeMe(value)
+   -moz-opacity value
+   -khtml-opacity value
+   opacity value
+   value = value * 100
+   filter s('alpha(opacity=%s)', value )
+
+
+CircleMe()
+  position relative
+  Vendor(border-radius,50%)
+  height 100%
+  width 100%
+  
+/**
+ * input: @property name(width/height/margin)
+ *        @value 
+ * output: the rendered CSS for the given property and value for all the vendors
+ */
+Calc(prop, value)
+   {prop} -moz-calc(value)
+   {prop} -webkit-calc(value)
+   {prop} -o-calc(value)
+   {prop} -ms-{prop} args
+   {prop} calc(value)
+
+/**
+ * is called on the after select like this: .element-class:after{ _clearfix }
+ */
+Clearfix()
+   content '.'
+   clear both
+   display block
+   height 0   
+   line-height 0 
+   visibility hidden
+
+
+
+
+
+/* - $GENERAL STYLES --------------------------------------------- */
+
+
+
+
+
+
+body
+   background $greyLight
+   font-family 'Source Sans Pro', sans-serif
+   font-size 13px
+   color $textColor
+   
+ul
+   list-style none   
+   margin-left 0
+   padding 0
+   
+   
+   
+/* - $UNIQUE STYLES ---------------------------------------------- */
+
+
+/* --- $HEADER --------------------------------------------------- */  
+
+$headerHeight = 100px
+
+header
+  background $secondaryColor
+  position relative
+  width 100%
+  height $headerHeight
+  top 0
+  left 0
+  
+  .logo    
+    float left
+    margin-top 20px
+    
+    a
+      color $textColorInvert
+      font-size 40px
+      text-transform lowercase
+                
+      .bold
+         font-weight bold
+      
+  nav
+    float right
+    margin-top 30px
+    
+    li
+      float left
+      margin-left 1em
+    
+    a
+      color $textColorInvert  
+      font-size 1.4em
+      
+    a:hover
+      color $textColorNeutral
+
+
+.hero
+   //position relative
+   text-align center
+   
+   .cover
+      overflow hidden
+      height 50em
+   
+   img
+      width 100%
+      
+      
+   .wrapper
+      //position static
+      text-align center
+      
+      article
+         //position absolute
+         //top 50%
+         text-align center
+         
+         h1
+            font-size 4em
+            text-align center
+      
+    
+
+.filters      
+   border-bottom 1px solid $greyDark
+   display inline-block 
+   margin-bottom 2.5em
+   
+   .filter-tag    
+      display inline-block
+      margin-left 1em
+      padding-bottom 10px
+   
+   .filter-tag:first-child
+      margin-left 0
+            
+   .filter-tag.current,.filter-tag:hover
+      border-bottom 5px solid $greyDark      
+      margin-bottom -5px
+      padding-bottom (10 + 5)px      
+
+/* --- $CONTENT -------------------------------------------------- */    
+    
+section
+  //margin-top $headerHeight + 40px
+
+  .title
+    text-transform uppercase
+    font-size 45px  
+    
+  
+  
+*[class*="grid"]
+   
+   .box
+      color $white
+      //padding 5em 0
+            
+      .wrapper
+        position relative
+        width 100%        
+        padding-bottom 60%
+        
+        background-color $primaryColor 
+        text-align center        
+        position relative
+          
+        a          
+          color $textColorInvert
+          width 100%
+          height 100%
+
+          position absolute
+          top 0 
+          left 0
+                         
+      h2
+         margin 0
+         
+      p
+         margin 0
+         font-size 13px
+         font-style italic
+         //text-shadow 0px 0px 2px #bf6542
+         
+      .wrapper:hover
+        background-color $primaryColorHighlight            
+      
+      
+   .box.skill
+      
+      a
+         vertical-align middle
+         padding-top 17%
+      
+      h2
+         //text-shadow 0px 1px 2px $orangeShadow
+      
+      .wrapper
+         margin-bottom 7px
+      
+      *[class*="line"]
+         width 60%
+         height 15px
+         background $orangeLight
+         float left
+         clear left
+         margin-bottom 5px
+         
+      *[class*="line"][class*="experience"]
+         background #FF4C4C
+         width 74%
+               
+      *[class*="line"][class*="projects"]
+         background #FFAE7E
+         width 34%
+               
+      
+   .box.work
+      
+      .wrapper 
+         //min-height 300px
+         padding-bottom 110%
+         text-align left
+         background $white
+         
+         .thumb
+            height 80%
+            overflow hidden
+            text-align center
+            font-size 3em
+            font-weight bold
+            color $primaryColorHighlight
+            background $primaryColor
+            //text-shadow 0px -1px 2px $orangeShadow
+                                 
+            img
+               width 100% 
+               
+            span
+               display block
+               padding-top 30%
+                               
+
+         .info
+            padding 1em
+            background $white
+      
+         a
+            color $textColor
+            
+         .date
+            font-size 13px
+            font-weight normal
+            color $textColorNeutral   
+                  
+
+
+/* - $FOOTER ----------------------------------------------------- */
+
+footer 
+  
+  border-top 1px solid $greyDark
+  margin-top 8em
+  padding-top 2em
+
+
+
+/* - $OBJECTS ---------------------------------------------------- */
+
+
+
+
+
+/* - $OBJECTS --- GRID ------------------------------------------- */
+/* defines the columns width, margins, and state - liquid or fixed */
+
+
+$spanMargin = 20px
+
+.row 
+   margin-left - $spanMargin
+
+.row:after
+   Clearfix()   
+   
+
+*[class*='span']
+   float left
+   margin-left $spanMargin
+   margin-bottom $spanMargin
+   width 100%
+   
+*[class*='span'].[class*='fullwidth']
+   margin-left 0
+   
+*[class*='span'].[class*='nomargin']
+   margin 0   
+
+*[class*='span4']
+   Calc(width, 25% \- $spanMargin)
+
+*[class*='span5']
+  Calc(width, 20% \- $spanMargin)
+   
+*[class*='span6']
+  Calc(width, 16.667% \- $spanMargin)
+   
+
+
+
+
+/* -$OBJECTS --- OTHERS ------------------------------------------ */   
+
+.circle
+  CircleMe()
+  position absolute
+
+
+.bold
+   font-weight bold
+
+.clearfix:after
+  Clearfix()
+
+      

@@ -31,17 +31,41 @@
           
           foreach($skillTags as $tag) : ?> 
             <div class="span5 box skill" data-code="3230" data-experience="4" data-projects="<?php echo $tag->count;?>">       
-              <div class="wrapper">
+              <div class="wrapper circle">
                 <a href="<?php echo get_term_link($tag->tag_name,'post_tag'); ?>" class="">
-                  <h2><?php echo $tag->tag_name; ?></h2>
-                  <p><?php echo $tag->count; ?> Projects 
-                  <br/>~ 3400 Lines of Code</p>            
+                
+                  <div class="table">
+                     <div class="table-cell">
+                        <h2><?php echo $tag->tag_name; ?></h2>
+                        <p><?php echo $tag->count; ?> Projects 
+                        <br/>~ 3400 Lines of Code</p>            
+                     </div><!-- /table-cell -->
+                  </div><!-- /table -->
+                  
                 </a>
+                
+               <div class="ring experience">
+                  <div class="pie" style=""></div>
+                  <div class="pie fill" style=""></div>               
+               </div>                  
+               
+               <div class="ring projects">
+                  <div class="pie" style=""></div>
+                  <div class="pie fill" style=""></div>
+               </div>
+               
+               <div class="ring codes">
+                  <div class="pie" style=""></div>
+                  <div class="pie fill" style=""></div>
+               </div>
+               
+<!--                 <div class="line-experience" data-score="69" style="//width:<?php echo rand(20,80); ?>px">eXperience</div> -->
+<!--
+                <div class="line-projects" data-score="23" style="width:<?php echo rand(20,100); ?>px">Projects</div>
+                <div class="line-code" data-score="95" style="width:<?php echo rand(20,100); ?>px">Code</div>
+-->
+
               </div>
-              
-              <div class="line-experience" data-score="69" style="width:<?php echo rand(20,80); ?>px">eXperience</div>
-              <div class="line-projects" data-score="23" style="width:<?php echo rand(20,100); ?>px">Projects</div>
-              <div class="line-code" data-score="95" style="width:<?php echo rand(20,100); ?>px">Code</div>
               
             </div>
   		<?php endforeach; ?>

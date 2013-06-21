@@ -26,8 +26,20 @@ section .title{text-transform:uppercase;font-size:45px}
 *[class*="grid"] .box h2{margin:0}
 *[class*="grid"] .box p{margin:0;font-size:13px;font-style:italic}
 *[class*="grid"] .box .wrapper:hover{background-color:#00bcff}
-*[class*="grid"] .box.skill a{vertical-align:middle;padding-top:17%}
-*[class*="grid"] .box.skill .wrapper{margin-bottom:7px}
+*[class*="grid"] .box.skill .circle{position:relative;display:inline-block;background:none;font-size:18.46em;}
+*[class*="grid"] .box.skill .circle .ring{position:absolute;width:1em;height:1em;}
+*[class*="grid"] .box.skill .circle .ring .pie{position:absolute;border:.05em solid #30a0c8;width:1em;height:1em;clip:rect(0,.5em,1em,0);-moz-border-radius:.5em;-webkit-border-radius:.5em;border-radius:.5em;box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-font-smoothing:antialiased;font-smoothing:antialiased;text-rendering:optimizeLegibility;-webkit-transform:rotate(309deg)}
+*[class*="grid"] .box.skill .circle .ring .pie.fill{-moz-transform:rotate(180deg) !important;-webkit-transform:rotate(180deg) !important;-o-transform:rotate(180deg) !important;transform:rotate(180deg) !important}
+*[class*="grid"] .box.skill .circle .ring.projects{font-size:.9em;top:.055em;left:.055em;}
+*[class*="grid"] .box.skill .circle .ring.projects .pie{border-color:#002f40}
+*[class*="grid"] .box.skill .circle .ring.codes{font-size:.82em;top:.11em;left:.11em;}
+*[class*="grid"] .box.skill .circle .ring.codes .pie{border-color:#00bcff}
+*[class*="grid"] .box.skill .circle:before{background:#f00;display:block;position:absolute;width:1em;height:1em;-moz-border-radius:.5em;-webkit-border-radius:.5em;border-radius:.5em;opacity:.5;z-index:0}
+*[class*="grid"] .box.skill .circle:after{background:#ddd;display:block;position:absolute;top:.1em;left:.1em;width:.8em;height:.8em;-moz-border-radius:.5em;-webkit-border-radius:.5em;border-radius:.5em;z-index:1}
+*[class*="grid"] .box.skill .wrapper{margin-bottom:7px;padding-bottom:100%}
+*[class*="grid"] .box.skill a{color:#333;font-size:14px;}
+*[class*="grid"] .box.skill a .table{display:table;height:100%;width:100%;text-align:center;}
+*[class*="grid"] .box.skill a .table .table-cell{display:table-cell;vertical-align:middle}
 *[class*="grid"] .box.skill *[class*="line"]{width:60%;height:15px;background:#ff803c;float:left;clear:left;margin-bottom:5px}
 *[class*="grid"] .box.skill *[class*="line"][class*="experience"]{background:#ff4c4c;width:74%}
 *[class*="grid"] .box.skill *[class*="line"][class*="projects"]{background:#ffae7e;width:34%}

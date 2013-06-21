@@ -255,15 +255,112 @@ section
       
    .box.skill
       
-      a
-         vertical-align middle
-         padding-top 17%
       
-      h2
-         //text-shadow 0px 1px 2px $orangeShadow
+      
+      .circle
+         position relative
+         display inline-block
+         background none
+         font-size 18.46em //this need to be related to the size of the wrapper             
+         
+         .ring
+            
+            //clip: rect(auto,auto,auto,auto);
+            position: absolute;
+            width: 1em;
+            height: 1em;
+            
+            .pie
+               position: absolute;
+               border: .05em solid $blue;
+               //top .05em
+               //left .05em
+               width: 1em;
+               height: 1em;
+               clip: rect(0,.5em,1em,0);
+               -moz-border-radius: .5em;
+               -webkit-border-radius: .5em;
+               border-radius: .5em;
+               box-sizing: border-box;
+               -webkit-box-sizing: border-box;
+               -moz-box-sizing: border-box;
+               -webkit-font-smoothing: antialiased;
+               font-smoothing: antialiased;
+               text-rendering: optimizeLegibility;
+               -webkit-transform: rotate(309deg);
+
+            .pie.fill
+               -moz-transform: rotate(180deg)!important;
+               -webkit-transform: rotate(180deg)!important;
+               -o-transform: rotate(180deg)!important;
+               transform: rotate(180deg)!important;
+
+         .ring.projects
+            font-size .9em
+            top .055em
+            left .055em
+            
+            .pie
+               border-color $blueDark
+               
+         .ring.codes
+            font-size .82em
+            top .11em
+            left .11em
+            
+            .pie
+               border-color $blueLight               
+               
+      .circle:before
+         background red
+         //content: '';
+         display: block;
+         position: absolute;
+         width: 1em;
+         height: 1em;
+         -moz-border-radius: .5em;
+         -webkit-border-radius: .5em;
+         border-radius: .5em;
+         opacity: .5;
+         z-index: 0;
+      
+      .circle:after 
+         background $grey
+         //content: '';
+         display: block;
+         position: absolute;
+         top: .1em;
+         left: .1em;
+         width: .8em;
+         height: .8em;
+         -moz-border-radius: .5em;
+         -webkit-border-radius: .5em;
+         border-radius: .5em;
+         z-index: 1;
+            
+      
+      
       
       .wrapper
          margin-bottom 7px
+         padding-bottom 100% 
+         
+      a           
+         color $black
+         font-size 14px
+         
+         .table
+            display table
+            height 100%
+            width 100%
+            text-align center
+            
+            .table-cell
+               display table-cell
+               vertical-align middle
+      
+      h2
+         //text-shadow 0px 1px 2px $orangeShadow         
       
       *[class*="line"]
          width 60%

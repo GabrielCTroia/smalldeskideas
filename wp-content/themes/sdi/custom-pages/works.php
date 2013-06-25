@@ -24,56 +24,24 @@
 			<div class="works-grid row">
 			
   			<?php 
+          
+          $works = new WP_Query(
+            array(
+              'post_type'        => 'post',
+              'orderby'          => 'date',
+              'order'            => 'DESC',
+              'posts_per_page'   => -1,
+              'category_name'    => 'Works'
+            )
+          ); 
+                 
+          foreach($works->posts as $work) : 
+   
+         ?> 
 
-/*          echo "pre"; */
-    			          
-/*
-          $works = new WP_Query(array(
-            'post_type'          => 'post'
-          ));
-*/
-          
-/*          echo "<pre>"; */
-/*  			print_r($works); */
-/*  			echo "</pre>"; */
- 			
- 			
- 			
-/*  		    echo "Asd"; */
-           
-/*           var_dump($works); */
-          
-          
-         $works = new WP_Query(
-         array(
-           'post_type'        => 'post',
-           'orderby'          => 'date',
-           'order'            => 'DESC',
-           'posts_per_page'   => -1,
-           'category_name'    => 'Works'
-         )
-       ); 
-              
-       foreach($works->posts as $work) : 
-/*
-       
-         echo "<pre>";
- 			print_r($work);
- 			echo "</pre>";
-*/ 
-       ?> 
-      
-         
-         <article id="post-<?php echo $work->ID ?>" class="span3 box work" style="background-image:url(<?php echo $work->thumbnail; ?>)">       
-           <div class="box-wrapper">             
-             <a href="<?php echo get_permalink($work->ID); ?> " class="">
-               <div class="thumb"><?php echo (has_post_thumbnail($work->ID)) ? get_the_post_thumbnail( $work->ID , 'medium') : '<span>&#60;/no thumb&#62;</span>'; ?></div>
-               <div class="info">
-                  <h2><?php echo $work->post_title; ?></h2>
-                  <p>~ 3400 Lines of Code</p>            
-               </div>
-             </a>
-           </div>
+         <article id="post-<?php echo $work->ID ?>" class="span4 box work" style="background-image:url(<?php echo $work->thumbnail; ?>)">       
+            <?php $postID = $work->ID; 
+            include("work-thumb.php") ?>
          </article>
 
   		<?php endforeach; ?>

@@ -36,8 +36,8 @@ $textColorInvert     = $greyLight
 
 
 
-
-
+/* - $VARS --- $COLORS ------------------------------------------- */
+$baseFontSize = 13px;
 
 
 
@@ -97,13 +97,22 @@ Calc(prop, value)
  */
 Clearfix()
    content '.'
-   clear both
    display block
-   height 0   
+   clear both   
+   visibility hidden   
    line-height 0 
-   visibility hidden
+   height 0   
 
-
+Digitize()
+   content ''
+   background url("../img/overlay-digital-texture.png")
+   width 100%
+   height 100%
+   position absolute
+   z-index 100
+   top 0
+   left 0
+   FadeMe(.5)
 
 
 
@@ -111,15 +120,16 @@ Clearfix()
 
 
 
-
-
-
 body
-   background $greyLight
    font-family 'Source Sans Pro', sans-serif
-   font-size 13px
+   font-size $baseFontSize
    color $textColor
+   background $grey
 
+.main
+   background $greyLight
+   padding-bottom 7em
+   
 
 h1
   font-size 3em
@@ -181,18 +191,19 @@ header
 
 
 .hero
-   //position relative
+   position relative
    text-align center
+   overflow hidden
+   height 30em
+   min-height 300px
+   
    
    .cover
-      overflow hidden
-      height 30em
-      min-height 300px
-   
+      position relative   
+         
       img
         width 100%
-      
-      
+            
    .wrapper
       //position static
       text-align center
@@ -205,7 +216,10 @@ header
          h1
             font-size 4em
             text-align center
-      
+                
+.hero:after
+   Digitize()
+
 
 .focus
   margin-top 100px
@@ -245,12 +259,20 @@ section
     text-transform uppercase
     font-size 45px  
     
+    .skill
+      color $primaryColor
+  
+
+  .content
+  
+   > .row
+      font-size 100px
   
   
 *[class*="grid"]
    
    .box
-      color $white
+      margin-bottom 1em
       //padding 5em 0
             
       .box-wrapper
@@ -263,7 +285,7 @@ section
         position relative
           
         a          
-          color $textColorInvert
+          color $textColor
           width 100%
           height 100%
 
@@ -359,8 +381,11 @@ section
          
 
                
+               
+               
       
    .box.work
+      //box-shadow 1px 1px 10px $greyDark
       
       .box-wrapper 
          //min-height 300px
@@ -369,41 +394,57 @@ section
          background $white
          
          .thumb
-            height 80%
+            height 85%
             overflow hidden
             text-align center
             font-size 3em
             font-weight bold
-            color $primaryColorHighlight
-            background $primaryColor
-            //text-shadow 0px -1px 2px $orangeShadow
-                                 
+            background $grey
+            color $greyLight
+            //text-shadow 0px -1px 2px $orangeShadow            
+            position relative   
+                 
             img
                width 100% 
+               display block
                
             span
                display block
-               padding-top 30%
-                               
+               padding-top 30%                           
 
          .info
-            padding 1em
-            background $white
-      
-         a
-            color $textColor
+            height 15%
+            padding 1em 
+            //color $textColorNeutral
             
-         .date
-            font-size 13px
-            font-weight normal
-            color $textColorNeutral   
-                  
+            .work-title
+               //color $textColor
+                                 
+            .date
+               font-size 13px
+               font-weight normal
+               color $textColorNeutral   
+            
+            
+            
+         a
+            //color $textColor
+            
+            
                   
    .box.work:hover
-      
+               
+      .thumb
+        //display none
+        //height 100%
+        
       .info
-         background $primaryColorShadow
+         //height 100%
+         //margin-top -88%
+         background $primaryColor
          color $white
+         //FadeMe(.7)
+         //padding-top 40%
 
 
 
@@ -412,19 +453,13 @@ section
 aside
 
   .skills-used
-    
-    .skill      
-      width 6em
-      float left
-      margin 0 1em 1em 0          
 
       .box-wrapper        
         font-size 1em !important
-        
+   
     a
       padding 0 !important
-            
-    
+                
     .ring
       font-size 6em
     
@@ -434,10 +469,12 @@ aside
 /* - $FOOTER ----------------------------------------------------- */
 
 footer 
+  //border-top 1px solid $greyDark
+  padding-top 3em
   
-  border-top 1px solid $greyDark
-  margin-top 8em
-  padding-top 2em
+  .row
+     font-size 100px
+
 
 
 
@@ -451,22 +488,45 @@ footer
 /* defines the columns width, margins, and state - liquid or fixed */
 
 
+/**
+ * By having a span margin set in ems (or even percentage) we can have different margin sizes and span widths in multiple locations
+ * without REsetting the span sizes/margins. Pretty cool isn't it? 
+ *
+ * How it works: in the needed region(e.g. footer,header,main-content) we change the font-size at the row level and then REsetting it 
+ * at the span-wrapper level. 
+ *
+ * DRAWBACKS: - adding the span-wrapper container
+ *            - if we want to change the font size on the entire region we actually need to change it at the the span-wrapper level.
+ *            - by default it resets the span-wrapper's fontsize to the baseFontSize(the body font-size) if needed another size this needs to                  be specified in the {region} > .span-wrapper
+ */
 
-
-
-$spanMargin = 20px
+$spanMargin = 1em
 
 .row 
    margin-left - $spanMargin
+   *zoom 1
 
-.row:after
-   Clearfix()   
+//copied from twitter bootstrap
+.row:after 
+   clear: both;   
+   display: table;
+   line-height: 0;
+   content: "";
 
 *[class*='span']
    float left
    margin-left $spanMargin
-   margin-bottom $spanMargin
+   //margin-bottom $spanMargin //this is onluy a column - should'nt have margin-bottom - if the grid needs it I will do it on that level
    width 100%
+   
+   //reset the font-size to the baseFont(body font)
+   //this should have another name
+   .span-wrapper
+      float none
+      margin 0
+      width auto
+      font-size $baseFontSize
+
    
 *[class*='span'].[class*='fullwidth']
    margin-left 0
@@ -627,7 +687,6 @@ textarea::-webkit-input-placeholder
 .circle
   CircleMe()
   position absolute
-
 
 .bold
    font-weight bold

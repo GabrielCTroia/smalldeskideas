@@ -31,7 +31,7 @@
               <div class="span4 twitter-feed">
                 <div class="span-wrapper">
                  
-                  <a class="twitter-timeline" href="https://twitter.com/gabrielcatalin" height="380" data-chrome="nofooter noheader noscrollbar transparent" data-border-color="#bbb" data-widget-id="349185417867837441">Tweets by @gabrielcatalin</a>
+                  <a class="twitter-timeline" href="https://twitter.com/gabrielcatalin" height="280" data-chrome="nofooter noheader noscrollbar transparent" data-border-color="#bbb" data-widget-id="349185417867837441">Tweets by @gabrielcatalin</a>
                   <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
       
                 </div><!-- span-wrapper -->
@@ -73,6 +73,10 @@
 		<!-- jquery cdn and custom scripts -->
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<script>window.jQuery || document.write('<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"><\/script>');</script>
+		
+		<script src="<?php echo get_template_directory_uri(); ?>/js/main.js"></script>
+		
+		
 		<?php wp_footer(); ?>
 		
 		<!-- analytics -->

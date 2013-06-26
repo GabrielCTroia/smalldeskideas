@@ -32,7 +32,7 @@ $secondaryColor = $blueDark
 
 $textColor           = $black
 $textColorNeutral    = $greyDark
-$textColorInvert     = $greyLight
+$textColorInvert     = $white
 
 
 
@@ -103,7 +103,7 @@ Clearfix()
    line-height 0 
    height 0   
 
-Digitize()
+Digitize(fade = .5)
    content ''
    background url("../img/overlay-digital-texture.png")
    width 100%
@@ -112,7 +112,7 @@ Digitize()
    z-index 100
    top 0
    left 0
-   FadeMe(.5)
+   FadeMe(fade)
 
 
 
@@ -122,14 +122,18 @@ Digitize()
 
 body
    font-family 'Source Sans Pro', sans-serif
+   //font-family 'Merriweather', sans-serif
    font-size $baseFontSize
    color $textColor
-   background $grey
-
+   background $grey   
+   
 .main
    background $greyLight
    padding-bottom 7em
    
+  
+h1,h2,h3,h4,h5,h6
+   //margin 0 0 1em 0  
 
 h1
   font-size 3em
@@ -197,7 +201,6 @@ header
    height 30em
    min-height 300px
    
-   
    .cover
       position relative   
          
@@ -253,20 +256,44 @@ header
 /* --- $CONTENT -------------------------------------------------- */    
     
 section
-  //margin-top $headerHeight + 40px
 
-  .title
-    text-transform uppercase
-    font-size 45px  
+   .headline
+      margin-bottom 2em
+     
+      .title
+         margin 0
+     
+      .item
+         margin-right .5em 
+         float left
+         //line-height 1em
+   
+   
+   .title
+      //text-transform uppercase
+      font-size 3em
+      margin 1em 0  
     
     .skill
       color $primaryColor
+      
+   .project-url
+      display block
+      background $primaryColor
+      color $white    
+      padding .5em
+      margin-top .8em
+      font-weight bold
+    
+   .project-url:hover
+      background $primaryColorShadow  
   
 
-  .content
-  
-   > .row
-      font-size 100px
+   .content
+      padding-top 3em
+    
+      > .row
+         font-size 100px
   
   
 *[class*="grid"]
@@ -276,13 +303,13 @@ section
       //padding 5em 0
             
       .box-wrapper
-        position relative
         width 100%        
-        padding-bottom 60%
+        padding-bottom 80%
         
-        background-color $primaryColor 
+        background-color $grey
         text-align center        
         position relative
+        overflow hidden
           
         a          
           color $textColor
@@ -300,11 +327,15 @@ section
          margin 0
          font-size 13px
          font-style italic
-         //text-shadow 0px 0px 2px #bf6542
-         
-      .box-wrapper:hover
-        background-color $primaryColorHighlight            
+         //text-shadow 0px 0px 2px #bf6542            
+   
+   .box:hover
       
+      .hidden
+         Show()
+      
+      .shown
+         Hide()   
       
    .box.skill
             
@@ -318,17 +349,7 @@ section
          font-size 14px
          padding 2.2em
          z-index 101         
-         
-         .table
-            display table
-            height 100%
-            width 100%
-            text-align center
-            
-            .table-cell
-               display table-cell
-               vertical-align middle
-      
+                        
       h2
          margin 0
          font-size 1.5em
@@ -336,14 +357,10 @@ section
       h3
          margin 0
          font-size 1.4em
-      
-      span
-         font-size 1.2em
-         font-style italic 
+            
+      .skill-name
+         color $primaryColorShadow
          font-weight bold
-               
-      h2
-         //text-shadow 0px 1px 2px $orangeShadow         
       
       *[class*="line"]
          width 60%
@@ -364,23 +381,18 @@ section
    .box.skill:hover         
       
       a
-         color white
+         color $textColorInvert
 
       .info
          display none
       
-      .hidden
-         Show()
-      
-      .shown
-         Hide()
-         
-      
       .pie.trace
          background-color $primaryColor
          
-
-               
+      span
+         font-size 1.2em
+         font-style italic 
+         font-weight bold  
                
                
       
@@ -391,7 +403,6 @@ section
          //min-height 300px
          padding-bottom 110%
          text-align left
-         background $white
          
          .thumb
             height 85%
@@ -399,7 +410,6 @@ section
             text-align center
             font-size 3em
             font-weight bold
-            background $grey
             color $greyLight
             //text-shadow 0px -1px 2px $orangeShadow            
             position relative   
@@ -416,6 +426,7 @@ section
             height 15%
             padding 1em 
             //color $textColorNeutral
+            background $white
             
             .work-title
                //color $textColor
@@ -463,14 +474,25 @@ aside
     .ring
       font-size 6em
     
-
+    
+   .yarpp-related-widget
+            
+      .thumb:hover            
+         background $primaryColor
+         
+         a
+            color $textColorInvert 
+            padding 1em !important
+         
+         img
+            display none
 
 
 /* - $FOOTER ----------------------------------------------------- */
 
 footer 
   //border-top 1px solid $greyDark
-  padding-top 3em
+  padding 3em 0
   
   .row
      font-size 100px
@@ -545,7 +567,7 @@ $spanMargin = 1em
 SpanCalc(spanNo,limit)
   Calc(width, (spanNo*(100/limit))% \- $spanMargin)
 
-for col in 1 2 3 4 5 6 7 8 9 10 11 12
+for col in 1 2 3 4 5 6 7 8 9 10 11 12 
   [class*=span{col}]
     SpanCalc(col,12)        
    
@@ -596,10 +618,6 @@ textarea:-ms-input-placeholder
 input::-webkit-input-placeholder,
 textarea::-webkit-input-placeholder
   color: #999999;
-
-
-
-
 
 
 /* -$OBJECTS --- RING --------------------------------------------- */   
@@ -680,6 +698,91 @@ textarea::-webkit-input-placeholder
       
 
 
+/* -$OBJECTS --- DROPDOWN ------------------------------------------ */   
+
+.dropdown
+   position relative
+   background red
+
+.dropdown-menu
+   position absolute
+   top 100%
+   left 0
+   z-index 1000
+   display none
+   float left
+   min-width 160px
+   padding 5px 0
+   margin 2px 0 0
+   list-style none
+   background-color #ffffff
+   border 1px solid #ccc
+   //border 1px solid rgba(0, 0, 0, 0.2)
+   *border-right-width 2px
+   *border-bottom-width 2px
+   -webkit-border-radius 6px
+   -moz-border-radius 6px
+   border-radius 6px
+   -webkit-box-shadow 0 5px 10px rgba(0, 0, 0, 0.2)
+   -moz-box-shadow 0 5px 10px rgba(0, 0, 0, 0.2)
+   box-shadow 0 5px 10px rgba(0, 0, 0, 0.2)
+   -webkit-background-clip padding-box
+   -moz-background-clip padding
+   background-clip padding-box
+   background red
+   
+.dropdown-menu li a
+   display block
+   padding 3px 20px
+   clear both
+   font-weight normal
+   line-height 20px
+   color #333333
+   white-space nowrap
+
+
+.dropdown-menu > li > ahover,
+.dropdown-menu > li > afocus,
+.dropdown-submenuhover > a,
+.dropdown-submenufocus > a
+   color #ffffff
+   text-decoration none
+   background-color #0081c2
+   background-image -moz-linear-gradient(top, #0088cc, #0077b3)
+   background-image -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0077b3))
+   background-image -webkit-linear-gradient(top, #0088cc, #0077b3)
+   background-image -o-linear-gradient(top, #0088cc, #0077b3)
+   background-image linear-gradient(to bottom, #0088cc, #0077b3)
+   background-repeat repeat-x
+   filter progidDXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0)
+
+.dropdown-menu > .active > a,
+.dropdown-menu > .active > ahover,
+.dropdown-menu > .active > afocus
+   color #ffffff
+   text-decoration none
+   background-color #0081c2
+   background-image -moz-linear-gradient(top, #0088cc, #0077b3)
+   background-image -webkit-gradient(linear, 0 0, 0 100%, from(#0088cc), to(#0077b3))
+   background-image -webkit-linear-gradient(top, #0088cc, #0077b3)
+   background-image -o-linear-gradient(top, #0088cc, #0077b3)
+   background-image linear-gradient(to bottom, #0088cc, #0077b3)
+   background-repeat repeat-x
+   outline 0
+   filter progidDXImageTransform.Microsoft.gradient(startColorstr='#ff0088cc', endColorstr='#ff0077b3', GradientType=0)
+
+.dropdown-menu > .disabled > a,
+.dropdown-menu > .disabled > ahover,
+.dropdown-menu > .disabled > afocus
+   color #999999
+
+.dropdown-menu > .disabled > ahover,
+.dropdown-menu > .disabled > afocus
+   text-decoration none
+   cursor default
+   background-color transparent
+   background-image none
+   filter progidDXImageTransform.Microsoft.gradient(enabled=false)
 
 
 /* -$OBJECTS --- OTHERS ------------------------------------------ */   
@@ -701,9 +804,20 @@ textarea::-webkit-input-placeholder
    Hide()
    
 .pull-left
-   float left
+   float left !important
 
 .pull-right
-   float right   
+   float right !important  
+   
+.table
+   display table
+   height 100%
+   width 100%
+   text-align center
+   
+   .table-cell
+      display table-cell
+      vertical-align middle
+    
 
       

@@ -5,11 +5,11 @@ h1{font-size:3em}
 ul{list-style:none;margin-left:0;padding:0}
 header{background:#002f40;position:relative;width:100%;height:100px;top:0;left:0;}
 header .logo{float:left;margin-top:20px;}
-header .logo a{color:#eaeaea;font-size:40px;text-transform:lowercase;}
+header .logo a{color:#fff;font-size:40px;text-transform:lowercase;}
 header .logo a .bold{font-weight:bold}
 header nav{float:right;margin-top:30px;}
 header nav li{float:left;margin-left:1em}
-header nav a{color:#eaeaea;font-size:1.4em}
+header nav a{color:#fff;font-size:1.4em}
 header nav a:hover{color:#bbb}
 .hero{position:relative;text-align:center;overflow:hidden;height:30em;min-height:300px;}
 .hero .cover{position:relative;}
@@ -24,86 +24,4 @@ header nav a:hover{color:#bbb}
 .filters .filter-tag{display:inline-block;margin-left:1em;padding-bottom:10px}
 .filters .filter-tag:first-child{margin-left:0}
 .filters .filter-tag.current,.filters .filter-tag:hover{border-bottom:5px solid #bbb;margin-bottom:-5px;padding-bottom:15px}
-section .title{text-transform:uppercase;font-size:45px;}
-section .title .skill{color:#30a0c8}
-section .content > .row{font-size:100px}
-*[class*="grid"] .box{margin-bottom:1em;}
-*[class*="grid"] .box .box-wrapper{position:relative;width:100%;padding-bottom:60%;background-color:#30a0c8;text-align:center;position:relative;}
-*[class*="grid"] .box .box-wrapper a{color:#333;width:100%;height:100%;position:absolute;top:0;left:0}
-*[class*="grid"] .box h2{margin:0}
-*[class*="grid"] .box p{margin:0;font-size:13px;font-style:italic}
-*[class*="grid"] .box .box-wrapper:hover{background-color:#00bcff}
-*[class*="grid"] .box.skill .box-wrapper{padding-bottom:100%;background:none;font-size:15.16em}
-*[class*="grid"] .box.skill a{color:#333;font-size:14px;padding:2.2em;z-index:101;}
-*[class*="grid"] .box.skill a .table{display:table;height:100%;width:100%;text-align:center;}
-*[class*="grid"] .box.skill a .table .table-cell{display:table-cell;vertical-align:middle}
-*[class*="grid"] .box.skill h2{margin:0;font-size:1.5em}
-*[class*="grid"] .box.skill h3{margin:0;font-size:1.4em}
-*[class*="grid"] .box.skill span{font-size:1.2em;font-style:italic;font-weight:bold}
-*[class*="grid"] .box.skill *[class*="line"]{width:60%;height:15px;background:#ff803c;float:left;clear:left;margin-bottom:5px}
-*[class*="grid"] .box.skill *[class*="line"][class*="experience"]{background:#ff4c4c;width:74%}
-*[class*="grid"] .box.skill *[class*="line"][class*="projects"]{background:#ffae7e;width:34%}
-*[class*="grid"] .box.skill:hover a{color:#fff}
-*[class*="grid"] .box.skill:hover .info{display:none}
-*[class*="grid"] .box.skill:hover .hidden{display:block;visibility:visible}
-*[class*="grid"] .box.skill:hover .shown{display:none;visibility:hidden}
-*[class*="grid"] .box.skill:hover .pie.trace{background-color:#30a0c8}
-*[class*="grid"] .box.work .box-wrapper{padding-bottom:110%;text-align:left;background:#fff;}
-*[class*="grid"] .box.work .box-wrapper .thumb{height:85%;overflow:hidden;text-align:center;font-size:3em;font-weight:bold;background:#ddd;color:#eaeaea;position:relative;}
-*[class*="grid"] .box.work .box-wrapper .thumb img{width:100%;display:block}
-*[class*="grid"] .box.work .box-wrapper .thumb span{display:block;padding-top:30%}
-*[class*="grid"] .box.work .box-wrapper .info{height:15%;padding:1em;}
-*[class*="grid"] .box.work .box-wrapper .info .date{font-size:13px;font-weight:normal;color:#bbb}
-*[class*="grid"] .box.work:hover .info{background:#30a0c8;color:#fff}
-aside .skills-used .box-wrapper{font-size:1em !important}
-aside a{padding:0 !important}
-aside .ring{font-size:6em}
-footer{padding-top:3em;}
-footer .row{font-size:100px}
-.row{margin-left:-1em;*zoom:1}
-.row:after{clear:both;display:table;line-height:0;content:""}
-*[class*='span']{float:left;margin-left:1em;width:100%;}
-*[class*='span'] .span-wrapper{float:none;margin:0;width:auto;font-size:13px}
-*[class*='span'].[class*='fullwidth']{margin-left:0}
-*[class*='span'].[class*='nomargin']{margin:0}
-[class*=span1]{width:-moz-calc(8.333333333333334% - 1em);width:-webkit-calc(8.333333333333334% - 1em);width:-o-calc(8.333333333333334% - 1em);width:-ms-;width:args;width:calc(8.333333333333334% - 1em)}
-[class*=span2]{width:-moz-calc(16.666666666666668% - 1em);width:-webkit-calc(16.666666666666668% - 1em);width:-o-calc(16.666666666666668% - 1em);width:-ms-;width:args;width:calc(16.666666666666668% - 1em)}
-[class*=span3]{width:-moz-calc(25% - 1em);width:-webkit-calc(25% - 1em);width:-o-calc(25% - 1em);width:-ms-;width:args;width:calc(25% - 1em)}
-[class*=span4]{width:-moz-calc(33.333333333333336% - 1em);width:-webkit-calc(33.333333333333336% - 1em);width:-o-calc(33.333333333333336% - 1em);width:-ms-;width:args;width:calc(33.333333333333336% - 1em)}
-[class*=span5]{width:-moz-calc(41.66666666666667% - 1em);width:-webkit-calc(41.66666666666667% - 1em);width:-o-calc(41.66666666666667% - 1em);width:-ms-;width:args;width:calc(41.66666666666667% - 1em)}
-[class*=span6]{width:-moz-calc(50% - 1em);width:-webkit-calc(50% - 1em);width:-o-calc(50% - 1em);width:-ms-;width:args;width:calc(50% - 1em)}
-[class*=span7]{width:-moz-calc(58.333333333333336% - 1em);width:-webkit-calc(58.333333333333336% - 1em);width:-o-calc(58.333333333333336% - 1em);width:-ms-;width:args;width:calc(58.333333333333336% - 1em)}
-[class*=span8]{width:-moz-calc(66.66666666666667% - 1em);width:-webkit-calc(66.66666666666667% - 1em);width:-o-calc(66.66666666666667% - 1em);width:-ms-;width:args;width:calc(66.66666666666667% - 1em)}
-[class*=span9]{width:-moz-calc(75% - 1em);width:-webkit-calc(75% - 1em);width:-o-calc(75% - 1em);width:-ms-;width:args;width:calc(75% - 1em)}
-[class*=span10]{width:-moz-calc(83.33333333333334% - 1em);width:-webkit-calc(83.33333333333334% - 1em);width:-o-calc(83.33333333333334% - 1em);width:-ms-;width:args;width:calc(83.33333333333334% - 1em)}
-[class*=span11]{width:-moz-calc(91.66666666666667% - 1em);width:-webkit-calc(91.66666666666667% - 1em);width:-o-calc(91.66666666666667% - 1em);width:-ms-;width:args;width:calc(91.66666666666667% - 1em)}
-[class*=span12]{width:-moz-calc(100% - 1em);width:-webkit-calc(100% - 1em);width:-o-calc(100% - 1em);width:-ms-;width:args;width:calc(100% - 1em)}
-.control-group{margin-bottom:1em;}
-.control-group input,.control-group textarea{width:100%;padding:.5em;border:0}
-.control-group input{line-height:2em}
-.control-group input[type="submit"]{background:#30a0c8;color:#fff;font-size:1.2em}
-.control-group input[type="submit"]:hover{background:#005e7f}
-.control-group textarea{min-height:8em}
-.control-group label{display:none;visibility:hidden}
-input:-moz-placeholder,textarea:-moz-placeholder{color:#999}
-input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:#999}
-input::-webkit-input-placeholder,textarea::-webkit-input-placeholder{color:#999}
-.ring{position:relative;z-index:100;}
-.ring .ring-wrapper{position:absolute;width:1em;height:1em;clip:rect(0,1em,1em,.5em);z-index:100}
-.ring .pie{position:absolute;border:.07em solid #30a0c8;width:1em;height:1em;-moz-border-radius:.5em;-webkit-border-radius:.5em;border-radius:.5em;clip:rect(0,.5em,1em,0);box-sizing:border-box;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;-webkit-font-smoothing:antialiased;font-smoothing:antialiased;text-rendering:optimizeLegibility}
-.ring .pie.fill{display:none}
-.ring .ring-wrapper.gt50{clip:rect(auto,auto,auto,auto);}
-.ring .ring-wrapper.gt50 .pie.fill{display:block;-moz-transform:rotate(180deg) !important;-o-transform:rotate(180deg) !important;-webkit-transform:rotate(180deg) !important;transform:rotate(180deg) !important}
-.ring .pie.trace{clip:rect(auto,auto,auto,auto);opacity:.3;z-index:99}
-.ring .pie.background{clip:rect(auto,auto,auto,auto);border-color:#eaeaea !important;z-index:98}
-.ring.projects{z-index:99;}
-.ring.projects .pie{border-width:.13em}
-.ring.codes{z-index:98;}
-.ring.codes .pie{border-color:#ff803c;border-width:.2em}
-.circle{position:relative;-webkit-border-radius:50%;height:100%;width:100%;position:absolute}
-.bold{font-weight:bold}
-.clearfix:after{content:'.';display:block;clear:both;visibility:hidden;line-height:0;height:0}
-.shown{display:block;visibility:visible}
-.hidden{display:none;visibility:hidden}
-.pull-left{float:left}
-.pull-right{float:right}
+section .headline{margin-bottom:2em;}

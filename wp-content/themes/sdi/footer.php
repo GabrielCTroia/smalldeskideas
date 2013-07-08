@@ -1,11 +1,10 @@
-   		   </div>
-            <!-- /wrapper -->
-			
+<?php if($_POST['AJAX'] == true) return; ?>
+
 			</div>
          <!-- main -->
 			
 			<!-- footer -->
-			<footer class="footer" role="contentinfo">            
+			<footer class="footer scrollorama-block" role="contentinfo">            
             
             <div class="wrapper">
             
@@ -73,6 +72,18 @@
 		<!-- jquery cdn and custom scripts -->
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 		<script>window.jQuery || document.write('<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js"><\/script>');</script>
+		
+		<!-- <script src="<?php echo get_template_directory_uri(); ?>/js/bootstrap.min.js"></script> -->
+		
+		<script src="<?php echo get_template_directory_uri(); ?>/js/jquery.scrollorama.js"></script>
+		
+		<script src="<?php echo get_template_directory_uri(); ?>/js/waypoints.min.js"></script>
+		
+		<script src="<?php echo get_template_directory_uri(); ?>/js/jquery.scrollTo-1.4.3.1-min.js"></script>
+		
+		<script src="<?php echo get_template_directory_uri(); ?>/js/sammy.min.js"></script>
+		
+		<script src="<?php echo get_template_directory_uri(); ?>/js/knockout-2.2.1.min.js"></script>
 		
 		<script src="<?php echo get_template_directory_uri(); ?>/js/main.js"></script>
 		

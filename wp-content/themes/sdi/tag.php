@@ -3,29 +3,34 @@
 	<!-- section -->
 	<section role="main">
 	
-		<h1 class="title">I've did all these using </h1>
+		<h1 class="title">I've done all these using       
+		
+		   <span class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><?php echo single_tag_title('', false); ?></a>
+            <ul class="dropdown-menu">   		
+         		<?php    		
+         		   $tags = get_category_tags( array('categories' => 'Works'));    		
+                  
+                  foreach ($tags as $tag): ?>   		
+         		   
+         		   <li class="<?php echo (single_tag_title('', false) == $tag->tag_name) ? 'current' : '';?>">
+         		      <a href="<?php echo get_term_link($tag->tag_name,'post_tag'); ?>">
+         		         <?php echo $tag->tag_name; ?>
+         		      </a>
+         		   </li>   		
+         		   
+         		<?php endforeach; ?>   		
+      		</ul>
+         </span>
+      </h1>
 
-      <div class="dropdown">
-   		<ul class="dropdown-menu">   		
-      		<?php    		
-      		   $tags = get_category_tags( array('categories' => 'Works'));    		
-               
-               foreach ($tags as $tag): ?>   		
-      		   
-      		   <li class="filter-tag <?php echo (single_tag_title('', false) == $tag->tag_name) ? 'current' : '';?>">
-      		      <a href="<?php echo get_term_link($tag->tag_name,'post_tag'); ?>">
-      		         <?php echo $tag->tag_name; ?>
-      		      </a>
-      		   </li>   		
-      		   
-      		<?php endforeach; ?>   		
-   		</ul>
-      </div>
+
 		
 		
 <!-- 		<span class="skill"><?php echo single_tag_title('', false); ?><span></h1> -->
 		
-		<ul class="filters">   		
+	<!--
+	<ul class="filters">   		
    		<li class="filter-tag">
       		<span class="bold">Filter by Skill:</span>
    		</li>
@@ -42,6 +47,7 @@
    		   
    		<?php endforeach; ?>   		
 		</ul>
+-->
 		
 		<!--
 <ul class="filters by-type pull-right">

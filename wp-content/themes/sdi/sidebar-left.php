@@ -1,3 +1,77 @@
+<?php if($_GET['getJSON']) { //spit the JSON if that's what the controller is looking for. AJAX enabled
+  
+  //the JSON for this should already by part of the Works Object
+   
+} else if($_GET['getTemplate']) { //spit the template if that's what is loooking for. AJAX enabled ?>
+
+  <aside class="span4">
+  
+    <div class="span-wrapper">
+      
+      <div class="skills-used grid clearfix">
+      
+        <h3>Skills Used:</h3>
+        
+        <div class="row">
+          
+          <!-- ko foreach: usedSkills-->
+            
+            <div class="skill span3 box" >
+              
+              <div class="box-wrapper">
+                
+                <a href="#" data-bind="">
+                  
+                  <div class="table">
+                    
+                    <div class="table-cell">
+                      
+                      <h5 data-bind="text: name"></h5>
+                      
+                    </div> <!-- /table-cell -->
+                    
+                  </div> <!-- /table -->
+                  
+                </a>
+                
+                <div class="ring" data-bind="renderSkill: $data">
+                  
+                   <div class="ring-wrapper">
+                      <div class="pie rotated" style=""></div>
+                      <div class="pie fill" style=""></div>               
+                   </div>               
+                   
+                   <div class="pie trace"></div>                                 
+                   <div class="pie background"></div>
+                  
+                </div> <!-- /ring -->
+                
+              </div> <!-- /box-wrapper -->
+              
+            </div> <!-- /skill -->
+            
+          <!-- /ko -->
+          
+        </div>
+      
+      </div> <!-- /skills-used -->
+      
+      <div class="project-details">
+         
+         <h3>Project Details</h3>
+         
+         <span>Project Duration ~ 3month</span><br>
+         <span>Total lines of code ~ 23000</span><br>
+         <span>Project Duration ~ 3month</span><br>
+         
+      </div>   
+      
+    </div> <!-- /span-wrapper -->
+    
+  </aside>
+
+<?php } else { ?>
+
  <aside class="span4">
    
    <div class="span-wrapper">
@@ -39,7 +113,7 @@
                        </div>               
                        <div class="pie trace"></div>                                 
                        <div class="pie background"></div>
-                     </div>
+                     </div> <!-- /ring -->
                        
                   </div><!-- /box-wrapper -->
                
@@ -72,3 +146,5 @@
    </div><!-- span-wrapper -->
       
  </aside>
+ 
+ <?php } /* endif */ //AJAX==true ?>

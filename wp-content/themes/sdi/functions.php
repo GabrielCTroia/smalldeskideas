@@ -568,7 +568,7 @@ function calculateScore($linesOfCode,$years,$projects){
  * input: @score as int
  * output: str_format ready for printf
  */
-function theScore($score){
+function theScoreString($score){
 
   $scoreArray = array('Just Started learning %s','Still learning %s','I know the Basics of %s','I can find my way with %s','I enjoy %s already','%s is one of my favorites','I can do cool stuff in %s','Can ride %s with no handlebars','I don\'t even need to look when coding in %s','I\'m the sh*t at %s');
   
@@ -577,13 +577,24 @@ function theScore($score){
 
 
 /**
- * Returns the slug
+ * Returns the slug of the current post. Used in the loop
  */
 function the_slug($echo=true){
   $slug = basename(get_permalink());
   do_action('before_slug', $slug);
   $slug = apply_filters('slug_filter', $slug);
   if( $echo ) echo $slug;
+  do_action('after_slug', $slug);
+  return $slug;
+}
+
+/** 
+ * Returns the slug of the given post id. 
+ */
+function get_the_slug($id){
+  $slug = basename(get_permalink($id));
+  do_action('before_slug', $slug);
+  $slug = apply_filters('slug_filter', $slug);
   do_action('after_slug', $slug);
   return $slug;
 }

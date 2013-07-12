@@ -12,34 +12,15 @@ if($_GET['getJSON']) { //spit the JSON if that's what the controller is looking 
          $postData->postCssClasses   = get_post_class();
          $postData->title            = get_the_title();
          $postData->content          = get_the_content();
-         $postData->post_name        = get_the_slug($postData->ID);
-         
-         //get the works         
-         $skills = new WP_Query(
-            array(
-              'post_type'        => 'post',
-              'orderby'          => 'date',
-              'order'            => 'DESC',
-              'posts_per_page'   => -1,
-              'category_name'    => 'Works'
-            )
-         ); 
-
-         $postData->skills              = get_category_tags( array('categories' => 'Works'));
-          
-         foreach($postData->skills as $skill) : 
-            
-            $skill->term_link        = get_term_link($skill->tag_name,'post_tag');
-            $skill->projectsCount    = $skill->count;
-            $skill->linesOfCode      = 3400;
-            $skill->experience       = 4;
-            
-            
-            $skill->score            = calculateScore(2,2,2);     
-            $skill->scoreString      = sprintf(theScoreString($skill->score),'<span class="skill-name">' . $skill->tag_name . "</span>");
-            $skill->rotationDeg      = $skill->score * 3.6;
-                     
-         endforeach;
+         $postData->post_name        = get_the_slug($postData->ID);         
+      
+         $postData->skills           = getCategoryTags(array('categories' => 'Works'));
+                      
+            foreach($postData->skills as $skill) : 
+               
+               $skill = getSkillData($skill);
+                                                   
+            endforeach;
       
       endwhile; 
    
@@ -48,13 +29,20 @@ if($_GET['getJSON']) { //spit the JSON if that's what the controller is looking 
    //spit the JSON
    echo json_encode($postData);
    
+   
+   /*
+echo "<pre>";
+   print_r($postData);
+   echo "</pre>";
+*/
+   
 } else if($_GET['getTemplate']) { //spit the template if that's what is loooking for. AJAX enabled ?>
 
 <script type="text/html" id="section-skills">
    
    <!-- ko with: data -->
    
-   <section class="scrollorama-block" data-bind="attr: {id: post_name}">
+   <section data-bind="attr: {id: post_name}">
       
       <div class="wrapper">
          
@@ -66,7 +54,7 @@ if($_GET['getJSON']) { //spit the JSON if that's what the controller is looking 
                
                <div class="box-wrapper">
                   
-                  <a data-bind="attr: {href: term_link}">
+                  <a data-bind-not-used="attr: {href: term_link}">
                      
                      <div class="table">
                         <div class="table-cell">
@@ -74,13 +62,12 @@ if($_GET['getJSON']) { //spit the JSON if that's what the controller is looking 
                            <div class="shown">
                               
                               <h2 data-bind="html: scoreString"></h2>
-                              
+                              <span data-bind-not-used="text: score"></span>
                            </div> <!-- /shown -->
                            
-                           <div class="details hidden">
-                              <span><span data-bind="text: projectsCount"></span> Projects</span><br>
-                              <span><span data-bind="text: linesOfCode"></span> Lines Of Code</span><br>
-                              <span><span data-bind="text: experience"></span> Years of Experience</span><br>      
+                           <div class="details hidden">                              
+                              <span><span data-bind="text: count"></span> Projects</span><br>                              
+                              <span>+<span data-bind="text: experience"></span> of Experience</span><br>      
                            </div> <!-- /details -->
                            
                         </div><!-- /table-cell -->
@@ -89,22 +76,23 @@ if($_GET['getJSON']) { //spit the JSON if that's what the controller is looking 
                      
                   </a>
                                                     
-                  <div class="ring" data-bind="renderSkill: $data"> 
-                  
-                     <div class="ring-wrapper">
-                        <div class="pie rotated"></div>
-                        <div class="pie fill"></div>               
-                     </div> <!-- /ring-wrapper -->               
-                     
+                  <div class="ring" data-bind="renderSkill: $data">                   
+                     <div class="pie-wrapper spinner">
+                        <div class="pie"></div>
+                        <div class="clipper"></div>
+                     </div>
+                     <div class="pie-wrapper fill">
+                        <div class="pie"></div>               
+                     </div>                     
+                     <div class="clipper out"></div>
                      <div class="pie trace"></div>
-                     <div class="pie background"></div>
-                  
-                  </div> <!-- /ring -->
+                     <div class="pie background"></div>                  
+                  </div> <!-- /ring -->                  
                   
                </div> <!-- /box-wrapper -->
                
             </div> <!-- /box -->
-            
+               
          </div> <!-- /grid -->
          
       </div> <!-- /wrapper -->
@@ -141,7 +129,7 @@ get_header(); ?>
 			
   			<?php 
           
-          $skillTags = get_category_tags( array('categories' => 'Works'));
+          $skillTags = getCategoryTags( array('categories' => 'Works'));
           
           foreach($skillTags as $tag) : 
             
@@ -161,7 +149,6 @@ get_header(); ?>
                            </div>                           
                            <div class="details hidden">
                               <span><?php echo $tag->count; ?> Projects</span><br>
-                              <span><?php echo 13000; ?> Lines Of Code</span><br>
                               <span><?php echo 3; ?> Years of Experience</span><br>                                       
                            </div>
                            
@@ -169,11 +156,15 @@ get_header(); ?>
                      </div><!-- /table -->                     
                    </a>
                 
-                   <div class="ring"> 
-                     <div class="ring-wrapper <?php echo($rotationDegree>180) ? 'gt50' : ''; ?>">
-                        <div class="pie rotated" style="-webkit-transform: rotate(<?php echo $rotationDegree;?>deg);"></div>
-                        <div class="pie fill" style=""></div>               
-                     </div>               
+                   <div class="ring <?php echo($rotationDegree>180) ? 'gt50' : ''; ?>" > 
+                     <div class="pie-wrapper spinner" style="-webkit-transform: rotate(<?php echo $rotationDegree;?>deg);">
+                        <div class="pie"></div>
+                        <div class="clipper"></div>
+                     </div>                     
+                     <div class="pie-wrapper fill">
+                        <div class="pie"></div>               
+                     </div>
+                     <div class="clipper out"></div>
                      <div class="pie trace"></div>                                 
                      <div class="pie background"></div>
                    </div>

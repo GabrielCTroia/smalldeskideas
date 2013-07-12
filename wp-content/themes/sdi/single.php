@@ -13,14 +13,17 @@ if($_GET['getJSON']) { //spit the JSON if that's what the controller is looking 
          $postData->title            = get_the_title();
          $postData->content          = get_the_content();
          $postData->cover            = get_the_post_thumbnail();
-         $postData->coverBkg         = 'background:' . get_post_meta( get_the_ID(), 'CoverBackground' , 1 );
-         $postData->externalURL      = get_permalink( get_page_by_title( 'Live' )) . '?url=' . the_slug(false);
+         $postData->coverBkg         = 'background:' . get_post_meta( $postData->ID, 'CoverBackground' , 1 );
+         //$postData->externalURL      = '/#' . 'live' . '?url=' . the_slug(false);
+         $postData->externalURL      = get_post_meta( $postData->ID, 'URL' , 1 );
          $postData->date             = get_the_time('F j, Y');
          $postData->realURL          = get_permalink();          
          $postData->usedSkills       = wp_get_post_tags($postData->ID);
          
          foreach($postData->usedSkills as $skill) : 
             
+            $skill = getSkillData($skill);            
+/*
             $skill->term_link        = get_term_link($skill->tag_name,'post_tag');
             $skill->projectsCount    = $skill->count;
             $skill->linesOfCode      = 3400;
@@ -29,6 +32,7 @@ if($_GET['getJSON']) { //spit the JSON if that's what the controller is looking 
             $skill->score            = calculateScore(2,2,2);     
             $skill->scoreString      = sprintf(theScoreString($skill->score),'<span class="skill-name">' . $skill->tag_name . "</span>");
             $skill->rotationDeg      = $skill->score * 3.6;
+*/
                      
          endforeach;
           
@@ -39,13 +43,20 @@ if($_GET['getJSON']) { //spit the JSON if that's what the controller is looking 
    //spit the JSON
    echo json_encode($postData);
    
+   
+   /*
+echo "<pre>";
+   print_r($postData);
+   echo "</pre>";
+*/
+   
 } else if($_GET['getTemplate']) { //spit the template if that's what is loooking for. AJAX enabled ?>
 
 <script type="text/html" id="single-work">
 
   <!-- ko with: $root.currentWorkData -->
     
-  <section role="main" data-bind="renderPanel: $root.currentWorkData">
+  <section role="main" class="single-work" data-bind="renderPanel: $root.currentWorkData">
     
     <article>
       
@@ -75,7 +86,9 @@ if($_GET['getJSON']) { //spit the JSON if that's what the controller is looking 
                 
                 <h1 class="title item" data-bind="text: title"></h1>
                 
-                <a class="project-url item" data-bind="attr: {href: externalURL}">See it live</a>
+                <!-- ko if: externalURL -->
+                <a class="project-url item" data-bind="attr: {href: externalURL}" target="_blank">See it live</a>
+                <!-- /ko -->
                 
                 <span class="date item pull-right">Finished <span data-bind="text: date"></span></span>
                 
@@ -130,8 +143,7 @@ get_header(); ?>
       			 
             </div>
     			<?php endif; ?>
-    		<!-- /post thumbnail -->
-  
+        <!-- /post thumbnail -->
   		
         <div class="content wrapper" role="content">
           

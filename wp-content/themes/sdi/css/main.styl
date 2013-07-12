@@ -37,7 +37,7 @@ $textColorInvert     = $white
 
 
 /* - $VARS --- $COLORS ------------------------------------------- */
-$baseFontSize = 13px;
+$baseFontSize = 13px; //this needs to be in pixels
 
 
 
@@ -120,6 +120,8 @@ Rotate(degree)
   -ms-transform rotate(unit(degree,'deg'))
   -o-transform rotate(unit(degree,'deg'))
   transform rotate(unit(degree,'deg'))
+  
+  
 
 /* - $GENERAL STYLES --------------------------------------------- */
 
@@ -141,10 +143,11 @@ body.fixed
    
 .main
    background $greyLight
-   padding-bottom 7em
+   padding-top 5em
+   //padding-bottom 7em
    //min-height 100%
    //height auto !important
-   //height 100%
+   //height 100%  
   
 h1,h2,h3,h4,h5,h6
    //margin 0 0 1em 0  
@@ -172,6 +175,12 @@ ul
    
 /* - $UNIQUE STYLES ---------------------------------------------- */
 
+//this is triggered only when js is enabled
+.js
+   
+   .ifJsHide
+      display none 
+
 
 /* --- $HEADER --------------------------------------------------- */  
 
@@ -181,25 +190,26 @@ header
   background $primaryColor  
   width 100%
   //height $headerHeight
+  //height 1500px
   position fixed
   top 0
   left 0
-  z-index 9999
+  z-index 300
   
   .logo    
     float left
-    margin 20px 0
+    //padding 1em 0
     
     
     a
       color $textColorInvert
-      font-size 40px
+      font-size 3em
       text-transform lowercase
       
   nav
     float right
-    margin-top 30px
-    margin-bottom 20px
+    //padding-top 1.5em
+    padding-bottom 1em
     
     li
       float left
@@ -283,24 +293,28 @@ header
 /* --- $CONTENT -------------------------------------------------- */    
     
 section
-   margin-bottom 10em   
-
+   padding-bottom 7em   
+   
+   h1,.title
+      text-align center
+      font-weight 300
+      font-size 4em
+      padding 1em 0 2em
+      margin 0
+   
    .headline
       margin-bottom 2em
      
       .title
          margin 0
+         padding 0
      
       .item
          margin-right .5em 
          float left
          //line-height 1em
-   
-   
-   .title
-      //text-transform uppercase
-      font-size 3em
-      margin 1em 0  
+
+
     
     .skill
       color $primaryColor
@@ -309,8 +323,8 @@ section
       display block
       background $primaryColor
       color $white    
-      padding .5em
-      margin-top .8em
+      padding .45em
+      margin-top 2.2em
       font-weight bold
     
    .project-url:hover
@@ -353,7 +367,7 @@ section
          
       p
          margin 0
-         font-size 13px
+         font-size $baseFontSize
          font-style italic
          //text-shadow 0px 0px 2px #bf6542            
    
@@ -370,13 +384,11 @@ section
       .box-wrapper
          padding-bottom 100% 
          background none
-         font-size 15.16em //This is used for the rings and it need to be related to the size of the wrapper
 
       a           
          color $black
-         font-size 14px
-         padding 2.2em
-         z-index 101         
+         padding 15%
+         z-index 200         
                         
       h2
          margin 0
@@ -414,8 +426,8 @@ section
       .info
          display none
       
-      .pie.trace
-         background-color $primaryColor
+      .pie.background
+         background-color #b2d4e0
          
       span
          font-size 1.2em
@@ -460,7 +472,6 @@ section
                //color $textColor
                                  
             .date
-               font-size 13px
                font-weight normal
                color $textColorNeutral   
             
@@ -498,9 +509,6 @@ aside
    
     a
       padding 0 !important
-                
-    .ring
-      font-size 6em
     
     
    .yarpp-related-widget
@@ -524,9 +532,14 @@ footer
   
   .row
      font-size 100px
-
-
-
+     
+  .social-icons
+      
+      a
+         margin-left 1em
+         
+      a:first-child
+         margin-left 0
 
 
 /* - $PAGES ---------------------------------------------------- */
@@ -534,40 +547,30 @@ footer
 
 /* - $PAGES --- HOME ------------------------------------------- */
 
-
-body.home
-  width 100%
-  
-  .main
-    //height auto
-   
-
 section.home
    background-color $primaryColor
    height 100%
    width 100%
    text-align center
    color $white
-   position absolute
    z-index 1000 
-   margin-bottom 0
+   padding 0
    top 0
+   position relative
+   z-index 500
    
    a
       color $white
-
-   h1
-      font-weight 300
    
    .wrapper
       height 100%
-      //position relative
+      position relative
       
    article
       position absolute
       bottom 0
       width 100%
-      height 70%
+      height 62%
 
       
    .links
@@ -576,30 +579,31 @@ section.home
       bottom 7%
 
 .handlerArea
-  width 100px
+  $borderWidth = 25px
+  width 50px //this is double the borderWidth
   height 30px
   display block
   margin 0 auto
-  z-index 9999999999
+  z-index 999  
   
   .arrow
     background white
     width 1px
     position relative
-    margin 0 auto
+    margin-left 0px
   
   .arrow:before
     position absolute
     display block
     content '.'
-    font-size 70px
+    font-size 5em
     font-weight bold
     color $white
     z-index 1
     width 10px
     height 10px
     top -16px
-    left -18px
+    left 17px
     line-height 0
   
   
@@ -610,13 +614,12 @@ section.home
     font-size 1px
     color $white
     line-height 1px
-    border-width 25px
+    border-width $borderWidth
     border-style solid
     border-bottom-color transparent
     border-top-color $primaryColor
     border-right-color transparent
     border-left-color transparent
-    left -35px
 
 
 
@@ -674,7 +677,7 @@ $spanMargin = 1em
    margin-left 0
    
 *[class*='span'].[class*='nomargin']
-   margin 0   
+   margin 0
 
 
 
@@ -709,6 +712,13 @@ for col in 1 2 3 4 5 6 7 8 9 10 11 12
    input
       line-height 2em
       
+   input.captcha-input
+      width 80%
+      float left
+      
+   .captcha-image   
+      width 20%
+      height 3em
       
       
    input[type="submit"]
@@ -722,8 +732,12 @@ for col in 1 2 3 4 5 6 7 8 9 10 11 12
    textarea 
       min-height 8em
    
-   label   
+   label,.error-msg   
       Hide()
+      
+   .validation-error
+      border-left 3px solid red
+   
    
 
 
@@ -746,78 +760,98 @@ textarea::-webkit-input-placeholder
 /* When creating the rings I used this tutorial: http://atomicnoggin.ca/blog/2010/02/20/pure-css3-pie-charts/ 
  * and this tutorial: http://css-tricks.com/css-pie-timer/
  * and I was also deeply inspired by awwwards.com
- */               
+ *
+ *
+ * Firstly the ring was actually a border, and because of that the sizes were represented in EMs not Percentage,
+ * and was not so easy to scale it down, therefore I converted into percentage and use the ring as the background only masked by a same as background colored, smaller circle. Pretty cool. IT's how awwwards.com is doing it for their grades.
+ */         
+
+
+
+       
 .ring 
-   position relative              
+   //position relative              
    z-index 100 
+   width 100%
+   height 100%
+   background $greyLight
       
    .ring-wrapper         
       position: absolute;
-      width: 1em;
-      height: 1em;
+      width: 100%;
+      height: 100%;
       clip:rect(0,1em,1em,.5em)
       z-index 100      
+      //background red 
       
+   .clipper
+      position absolute
+      background inherit
+      width 50%
+      height 100%
+
+   .pie-wrapper
+      position absolute
+      width 100%
+      height 100%
+      background inherit
+   
+      .clipper
+         left 50%   
+   
    .pie
       position: absolute;
-      border .07em solid $primaryColor
-      width: 1em;
-      height: 1em;                        
-      -moz-border-radius: .5em;
-      -webkit-border-radius: .5em;
-      border-radius: .5em;
-      clip: rect(0,.5em,1em,0);
-                  
-      box-sizing: border-box;
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;            
+      width 100%
+      height 100%
+      -moz-border-radius: 50%;
+      -webkit-border-radius: 50%;
+      border-radius: 50%;
+
       -webkit-font-smoothing: antialiased;            
       font-smoothing: antialiased;
       text-rendering: optimizeLegibility;
-               
-   .pie.fill
+      
+      background $primaryColor
+            
+   .pie-wrapper.fill
+      left 50%
+      width 50%
       display none
+      overflow hidden
       
-   .ring-wrapper.gt50
-      clip rect(auto,auto,auto,auto)
+      .pie
+         width 200%
+         left: -100%
+   
+   .pie-wrapper.spinner
+      -webkit-transition all 2s
+      transition all 2s
+   
+            
+   .pie.background
+      background inherit
+      width 90%
+      height 90%
+      top 5%
+      left 5%
+      z-index 101       
       
-      .pie.fill
-         display block
-         -moz-transform: rotate(180deg)!important;
-         -o-transform: rotate(180deg)!important;
-         -webkit-transform: rotate(180deg)!important;
-         transform: rotate(180deg)!important;
-      
-
    .pie.trace
-      clip rect(auto,auto,auto,auto)
-      opacity .3
-      z-index 99
-   
-   //not used 
-   .pie.background 
-      clip rect(auto,auto,auto,auto)
-      border-color $greyLight !important
-      z-index 98   
+      FadeMe(.3)
+      z-index 100
       
 
-//not used 
-.ring.projects
-   z-index 99
-   
-   .pie
-      border-width .13em
-
-//not used             
-.ring.codes
-   z-index 98
-   
-   .pie
-      border-color $orange
-      border-width .20em                 
+.ring.gt50
       
-
-
+   .clipper.out
+      display none
+   
+   .pie-wrapper.fill
+      display block
+      
+   
+    
+      
 /* -$OBJECTS --- DROPDOWN ------------------------------------------ */   
 
 .dropdown
@@ -829,13 +863,13 @@ textarea::-webkit-input-placeholder
 .dropdown-menu
    position absolute
    background $white
-   font-size 1em
+   font-size $baseFontSize
    z-index 9999   
-   font-size 13px //to be replaced
    min-width 140px
    width 100%
    top 3em
    box-shadow 1px 1px 10px $greyDark
+   text-align left
    
    li      
       border-top 1px solid $greyLight
@@ -922,6 +956,7 @@ textarea::-webkit-input-placeholder
 
 .scrollorama-block
   width 100%
+  height 100%
   
 
 
@@ -990,6 +1025,90 @@ MakeArrow(elm,dir,deg)
    
    
 //MakeArrow('.arrow',dir,degree)
-       
 
+
+
+       
+@css{
+
+//keyframes for the rings - not working though
+   
+@keyframes rota {
+   0%   { transform: rotate(0deg); }
+   100% { transform: rotate(360deg); }
+}
+
+@keyframes fill {
+   0%        { opacity: 0; }
+   50%, 100% { opacity: 1; }
+}
+
+@keyframes mask {
+   0%        { opacity: 1; }
+   50%, 100% { opacity: 0; }
+}
+
+}
+
+
+
+
+
+
+/* -$MEDIA QUERIES ------------------------------------------ */  
+
+
+
+
+
+@media ( max-width:767px ) 
+   
+   $marginBottom = 20px
+   
+   body
+      text-align center
+      
+   header
+      
+      .logo
+         float none
+         margin 0 auto      
+         
+      nav
+         float none
+   
+   section
+      padding-bottom $marginBottom
+   
+   
+   
+   .row
+      margin 0
+   
+   *[class*='span']
+      width 100%
+      margin 0
+      margin-bottom $marginBottom
+      
+   
+   .home
+      
+      .link
+         float left
+         width 33%  
+   
+   
+   //this needs to be out for real
+   .twitter-feed 
+      display none
+   
+   
+//@media (max-width: 480px) 
+   
+//body
+   
+   
+   
+   
+   
       

@@ -23,11 +23,17 @@ var _log = function(input, isArray){
 
 
 
+/******************************************************************* 
+ *********************** PUBLIC METHODS ****************************
+ ******************************************************************/
+
+
+
 
 
 
 /**
-  * make the elements slideDown and Up or Right and Left 
+  * make the elements slideDown and Up or (Right and Left - not yet)
   *
   * input: elm        = jquery wrapped element
   *        options    = object with a set of options like: 
@@ -61,9 +67,6 @@ var curtainize = function(elm, options, callback){
   self.options        = options;
   
   _log(self);
-  //_log(self.elm.initSize);
-  
-  
 
 }
   
@@ -107,34 +110,33 @@ var curtainize = function(elm, options, callback){
     });
     
   }
+  
+  
+  
+  
+  
+  
+  
 
 
 
-
-
-/**
- * input: @url       - string with the url
- *        @callback  - string with the callback function name;
- *
- * output: void 
- * 
- * side effects: populates a given element in the callback with the returned data
- */ 
-function getJSON(url,callback){   
-   $.getJSON( url + '?getJSON=true').success(function(data){      
-      
-      if(callback != undefined)        
-        callback(data);
-      
-      console.log("JSON succeded for ", data);
-      
-   }).error(function(){
-      _log("Error! The JSON for " + url + " didn't load.");
-   });
+function getHtmlContent(urlData,callback){
+   
 }
 
 
-/* returns the object from an array of objects that matched the criteria */ 
+
+
+
+/** 
+ * returns the object from an array of objects that matched the criteria 
+ *
+ * input: @array (Array)            - the Array in which the matching is done
+ *        @property (String)        - the Object propery 
+ *        @value (Number,String)    - the given value which needs to match
+ *
+ * output: the matched Object
+ */ 
 function matchObjectByItem(array,property,value){
   return $.grep(array,function(e){
     return e[property] == value;
@@ -142,7 +144,20 @@ function matchObjectByItem(array,property,value){
 }
 
 
-/* returns the index of an object in an array */
+
+
+
+
+
+/**
+ * returns the index of an object in an array 
+ *
+ * input: @array           - the Array in which the matching is done
+ *        @property        - the Object property
+ *        @value           - the given value which needs to match
+ *
+ * output: Number - the Index in the Array of the matched Item 
+ */
 function getIndexByItem(array,property,value){
   var index = false;
   
@@ -169,89 +184,21 @@ function enableScroll(){
 }
 
 
-//KO CUSTOM BINDINGS
-
-/*
-ko.bindingHandlers.yourBindingName = {
-    init: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
-        // This will be called when the binding is first applied to an element
-        // Set up any initial state, event handlers, etc. here
-    },
-    update: function(element, valueAccessor, allBindingsAccessor, viewModel, bindingContext) {
-        // This will be called once when the binding is first applied to an element,
-        // and again whenever the associated observable changes value.
-        // Update the DOM element based on the supplied values here.
-    }
-};
-*/
 
 
 
-//ko.bindingHandlers.customCheck = {
-   
-   //init: function(element, valueAccessor)
-   
-   
-   
-//}
 
-/*
-customCheck: {cond: 'condition to be evaluated', then - a callback function , else : a callback function }
 
-customAttrRender: {attribute: value}
+/******************************************************************* 
+ *********************** CUSTOM BINDINGS ***************************
+ ******************************************************************/
 
-if attribute is an object go into it like:
 
-customAttrRender: {style: {-webkit-transform, rotate({dynamicValue: rotationDeg} ) }
 
-style: {propery: value}
 
-when dynamicValue is present, the value of it's property is returned 
-*/
-/*
 
-ko.bindingHandlers.scroll = {
- 
-  updating: true,
- 
-  init: function(element, valueAccessor, allBindingsAccessor) {
-      var self = this
-      self.updating = true;
-      ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
-            $(window).off("scroll.ko.scrollHandler")
-            self.updating = false
-      });
-  },
- 
-  update: function(element, valueAccessor, allBindingsAccessor){
-    var props = allBindingsAccessor().scrollOptions;
-    var offset = props.offset ? props.offset : "0";
-    var loadFunc = props.loadFunc;
-    var load = ko.utils.unwrapObservable(valueAccessor());
-    var self = this;
- 
-    if(load){
-      element.style.display = "";
-      $(window).on("scroll.ko.scrollHandler", function(){
-        if(($(document).height() - offset <= $(window).height() + $(window).scrollTop())){
-          if(self.updating){
-            loadFunc()
-            self.updating = false;
-          }
-        }
-        else{
-          self.updating = true;
-        }
-      });
-    }
-    else{
-        element.style.display = "none";
-        $(window).off("scroll.ko.scrollHandler")
-        self.updating = false
-    }
-  }
-}
-*/
+
+
 
 
 ko.bindingHandlers.curtainize = {
@@ -270,42 +217,13 @@ ko.bindingHandlers.curtainize = {
       enableScroll();
     }
     
-    lastScrollTop = 0;
     //on scroll set the slide the curtain up
-    $(window).scroll(function(event){
+/*
+    $(window).scroll(function(event){ //this doesn't work with a regular mouse wheel - 
       
-      var st = $(this).scrollTop();
-      
-      /* the 0.03 of the SEEN* elements height converted to integers  */
-      var percentageToInt = ($(element).height() - $(element).offset().top ) * 0.03
-      
-      /* check if the direction of the scroll is down,   
-       * & if the scrollTop is bigger than 0 (OSx smooth way of animating scrolling)
-       * & if the ORIGINAL top of the element is still lower than the bottom
-       */
-      if (st > lastScrollTop && st > 0 && $(element).offset().top > -$(element).height() ){ //scrolling down
-        //console.log('scrolling down', st);
-        
-        //console.log(percentageToInt);    
-       
-        $(element).css({
-          top: $(element).offset().top - percentageToInt
-        })
-       
-      } else if($(element).offset().top <= -$(element).height()){ //the element is out of the screen
-        
-        viewModel.isCurtainDown(false);  
-        
-      }
-      
-      lastScrollTop = st;
-      
-      //console.log(event);
-      
-            
-      //console.log($(element)[0]);
-      //viewModel.isCurtainDown(false);
+      viewModel.isCurtainDown(false);
     });
+*/
     
   },
   
@@ -319,6 +237,12 @@ ko.bindingHandlers.curtainize = {
   }
 
 }
+
+
+
+
+
+
 
 
 ko.bindingHandlers.renderPanel = {
@@ -371,44 +295,63 @@ ko.bindingHandlers.renderPanel = {
     
     element.HTML = HTML;
     
-    console.log('The panel for ' + value + ' was initiated');
+    
+    /* Event Listeners */
+    
+       /* Keys Press           
+        * one() is very important - it unbounds the event after the 1st invocation           
+        */
+      
+       /* Close the panel when pressing escape.*/
+       $(document).keyup(function(e) {
+         if (e.keyCode == 27) { // esc
+            /* close the panel by changing the url */
+            window.location.href = bindingContext.$root.getCurrentSectionURL();
+            _log('The panel was closed!');
+         }   
+       });
+       
+       /* Go to the Next Panel when pressing Right Arrow */
+       $(document).keyup(function(e) {
+         if (e.keyCode == 39) { // right arrow
+            /* go to the next one by changing the url */
+            if(bindingContext.$root.nextPanelURL()){
+              window.location.href = bindingContext.$root.nextPanelURL();
+              _log('Just went to the Next Subpanel!');
+            }
+         }   
+       });
+       
+       /* Go to the Prev Panel when pressing Left Arrow */
+       $(document).keyup(function(e) {
+         if (e.keyCode == 37) { // left arrow
+            if(bindingContext.$root.prevPanelURL()){
+               /* go to the prev one by changing the url */               
+               window.location.href = bindingContext.$root.prevPanelURL();
+               _log('Just went to the Prev Subpanel!');
+            }
+         }   
+      });       
+
+    
+    _log('The panel for ' + value + ' was initiated');
+    
     
   },
   
-  update: function(element, valueAccessor){
+  update: function(element, valueAccessor, allBindingsAccessor, viewModel,bindingContext){
     
     var value      = ko.utils.unwrapObservable(valueAccessor()),
         panelElm   = $(element).parents('.panel'); //defined in the init    
     
     if(value){
 
-      //fade in the panel
-      //panelElm.hide().fadeIn(500);
-      //panelElm.show();
       $(element).hide().fadeIn(500);
-      //make the page unscrollable
-      //disableScroll();  
-      //$(element).hide();
-      
-/*
-      $(element).css({left:'100%'})
-      $(element).animate({
-        left: 0
-      },500,function(){})
-*/
-      
-      
       console.log("Panel for " + value.title + " is in.");
     
     } else {      
 
-      //fade the panel out
-      /*
-panelElm.animate({
-        left: '-100%'
-      },500,function(){})
-*/
-      
+
       //make the page scrollable again
       enableScroll();
       
@@ -423,25 +366,52 @@ panelElm.animate({
 
 
 
+
+
+
+
+
 ko.bindingHandlers.renderSkill = {
 
   init: function(element, valueAccessor, allBindingsAccessor, viewModel,bindingContext){
     
     var value = ko.utils.unwrapObservable(valueAccessor());
     
-    /* Show the other half of the pie if the score is higher than half. */
-    if(value.score > 50)
-      $('.ring-wrapper', element).addClass('gt50');
-    
     // the rotation degree is the score times 3.6
     var rotateDegree = 3.6 * value.score;
     
     //apply the new rotation degree to the .pie that is rotated 
-    $('.pie.rotated',element).css({'-webkit-transform' : 'rotate(' + rotateDegree + 'deg)'});
+    
+    /* Show the other half of the pie if the score is higher than half and it's not shown already*/
+    
+    if(rotateDegree > 180)
+      $(element).addClass('gt50'); //doesn't work yet. need to find a way to track the css animation
 
+    //need to do this animation only when the elements are visible  
+    var timer = setTimeout(function(){
+       $(element).find('.pie-wrapper.spinner').css({'-webkit-transform' : 'rotate(' + rotateDegree + 'deg)'});   
+    }, 500);
+    
+    
+    
 /*
-    console.log($(element)[0]);
-    console.log(value)
+    $(element).find('.pie-wrapper.spinner').animate(
+        {rotation: rotateDegree},
+        {
+          duration: 1500,
+          easing: 'swing',
+          step: function(now, fx) {
+            
+            
+            if(now > 180 && this.hasGT50 == undefined){
+               $(this).parents('.ring').addClass('gt50');
+               this.hasGT50 = true;
+            }
+               
+            $(this).css({"transform": "rotate("+now+"deg)"});
+          }
+        }
+    );
 */
 
   }
@@ -455,50 +425,219 @@ ko.bindingHandlers.renderSkill = {
 
 
 
+ko.bindingHandlers.fadeVisible = {
 
-/* KO App*/
+  update: function(element, valueAccessor, allBindingsAccessor, viewModel,bindingContext){
+     
+     var value = ko.utils.unwrapObservable(valueAccessor());
+        
+     if(value)
+      $(element).fadeIn(800);
+     else
+      $(element).fadeOut();  
+  }
+
+}
+
+
+
+
+
+
+ko.bindingHandlers.renderNav = {
+
+  init: function(element, valueAccessor, allBindingsAccessor, viewModel,bindingContext){
+      
+      var value = ko.utils.unwrapObservable(valueAccessor());
+      
+      //don't to anything if the value is not true
+      if (value!=true)
+         return;
+         
+      $(element).find('a').each(function(){
+         
+         var oldHref    = $(this).attr('href'); //get the old href         
+         var splitHref  = oldHref.split('/'); //split it
+         
+         //if it's an external link don't touch it. If internal format it. 
+         if(window.location.hostname == splitHref[2]){
+            var newHref = oldHref.substr(oldHref.indexOf('//')+2); //take the protocol out (https,http)         
+                newHref = newHref.replace(window.location.hostname, ''); //take the hostname out
+                newHref = newHref.substr(1); //take the leading slash out
+                newHref = newHref.substr(0,newHref.length-1); //take the ending slash out         
+            $(this).attr('href', '/#' + newHref);
+         }
+      });
+           
+  }
+
+}
+
+
+
+
+
+/* Render the element only after everything AJAX loaded completely */
+ko.bindingHandlers.afterAllLoaded = {
+
+  update: function(element, valueAccessor, allBindingsAccessor, viewModel,bindingContext){
+     
+     //don't need this
+     var value = ko.utils.unwrapObservable(valueAccessor());
+     
+     $(element).show();
+     
+  }
+
+}
+
+
+
+/******************************************************************* 
+ *************************** KO APP ********************************
+ ******************************************************************/
+
+
+
+
+
+
 
 function AppViewModel() {
    
    var self = this;
+         
+   /* Object - holding the information of everything that was loaded via AJAX */
+   self.AJAXLoaded = {
+      'count'       : ko.observable()  
+     ,'index'       : ko.observable()
+     ,'loadedItems' : ko.observableArray()
+   }      
    
-   
-   //these should probably be loaded dynamically
+   /* B/C I need to work with AJAXLoaded object I need to take this method out of the above definition */
+   // true if count == index, false otherwise
+   self.AJAXLoaded.checkSum = ko.computed(function(){
+                        //interesting enough: in this case undefined is not equal to undefined :)
+                        return self.AJAXLoaded.count() == self.AJAXLoaded.index();
+                     })
+         
+         
+         
+         
+   /* Define the sections. - these should probably be loaded dynamically */
    self.sections = ko.observableArray([
          {
-            'name'      : 'home'
-           ,'realURL'   : '/home'        
-         },{
             'name'      : 'skills'
            ,'realURL'   : '/skills'        
          },{
             'name'      : 'work'
            ,'realURL'   : '/work'        
          }
-         ]);
+      ]);
+   
+   
+   /* These takes the self.sections Array and makes it an associative array, 
+      so I can refer to section.section_name from now on */
+   self.sectionsAssoc = ko.computed(function(){
+     var result = {};
+     ko.utils.arrayForEach(self.sections(),function(item){        
+        result[item.name] = item;
+     }); 
+     return result;
+   });
     
+    
+   self.modules = ko.observableArray([
+         {
+            'name'      : 'header'
+           ,'realURL'   : '/'
+         },{
+            'name'      : 'work'
+           ,'realURL'   : '/'        
+         }
+      ]);
    
    self.currentSection        = ko.observable();       
    
-   
+   /* Object with the data of the that shows up on the current panel */
    self.currentPanelData      = ko.observable();
 
    
    self.works                 = ko.observable();
-   self.allSkills                = ko.observable();
+   self.allSkills             = ko.observable();
    
    
    /*
-    I chose this to be compiuted instead of doing it the other way - having the currentPanel computed with this observable
+    I chose this to be computed instead of doing it the other way - having the currentPanel computed with this observable
        because, this way I feel is more dynamic. I can have other computed observables listening to the currentPanel, since
        currentPanel is changed one time in self.renderPanel();
     */
    self.currentWorkData       = ko.computed(function(){
      return self.currentPanelData();
    });   
+      
    
-   
-   /* METHODS */
+  /********************** PRIVATE METHODS ********************/
+  
+  /**
+   * input: @url (String)          - the url
+   *              (Object)         - the url and the QueryString
+   *        @callback (String)     - the callback function name
+   *        @progressData (Object) - currentIndex,limit. Calculates the progress status.
+   *
+   * output: Void 
+   * 
+   * side effects: populates a given element in the callback with the returned data
+   */ 
+   self.getJSON = function(urlData,callback,progressData){   
+      var url           = null
+         ,queryString   = null;
+      
+      
+      if (typeof urlData == Object){ //if Object than populate the vars with the objects' data. Usually there is a Query String involved
+         url           = urlData.url;
+         queryString   = (urlData.queryString != undefined) ? '&' + urlData.queryString : null;
+      } else { // if not Object, than is be String
+         url = urlData; 
+      }
+      
+      //update the self.AJAXLoaded() with the datas from here
+      if(typeof progressData != undefined) {
+         //I should also have a session/checked by time or smtg ....
+         
+         /* check if the count is already set */
+         if(self.AJAXLoaded.count() == undefined)         
+            //set the count now to be able to do a checksum()  
+            self.AJAXLoaded.count(progressData.count);
+      }
+      
+      
+      $.getJSON(url + '?getJSON=true' + queryString).success(function(data){      
+         
+         if(callback != undefined)        
+           callback(data);
+                  
+         if(progressData != undefined) {   
+            //update the current index in the AJAXLoaded var
+            self.AJAXLoaded.index(progressData.currentIndex);
+            
+            /* I don't need this right now */
+            //self.AJAXLoaded.loadedItems().push(data);
+         }
+         
+         console.log(self.AJAXLoaded.loadedItems());
+            
+         console.log("JSON succeded for ", data);
+         
+      }).error(function(error){
+         _log("Error! The JSON for " + url + " didn't load. Here's why: ",error);
+      });
+   }
+  
+  
+  
+  
+  
                 
   /** 
    * Void(): set the content for the sections 
@@ -509,53 +648,57 @@ function AppViewModel() {
          var currSect             = self.sections()[i];
              currSect.data        = ko.observable();  //stores the section' datas
              currSect.template    = 'section-' + currSect.name ; //stores the section' template
+             currSect.loaded      = ko.observable(false);
          
          /* populate the data object with the section' data */
-         getJSON( self.sections()[i].realURL, currSect.data);        
+         self.getJSON(currSect.realURL, currSect.data, {'currentIndex' : i+1 , 'count': self.sections().length});        
       }
    }
    
    
-   
-/*
-   self.setAllWorks = function(){
-     //not implemented yet - should be called by the template when the section is loaded
-   }
-   
-   self.setAllSkills = function(){
-     self.allSkills(self.matchSectionByName('skills').skills);
-     
-     console.log(self.allSkills());
-   }
-*/
-   
-   
    self.getCurrentSectionURL = function(){
-     //console.log('/#' + self.currentSection().name);
      return '/#' + self.currentSection().name; 
    }
       
    /**
+    * Returns the given section' template
+    *
     * input: @section (string) - section name
     * output:  string - sections' template name 
     */
    self.getSectionTemplate = function(section){
       return section.template;
    }
+   
+   
+   /** 
+   * Void(): set the content for the modules
+   * 
+   */          
+   self.setModulesContent = function(){
+      for(var i = 0; i < self.modules().length; i++){         
+         var currModule             = self.modules()[i];
+             currModule.data        = ko.observable();  //stores the module' datas
+             currModule.template    = 'module-' + currModule.name ; //stores the module' template
+         
+         /* populate the data object with the section' data */
+         getHtmlContent( { 'url' : currModule.realURL, 'queryString' : 'getModule=' + currModule.name}, currModule.data);        
+      }
+   }
+   
+   
 
    /** 
-    * returns the formated permalink of each work 
+    * Returns the formated permalink of each work 
+    *
     * input: @data - string containing the work data object
     */
    self.getWorkPermalink = function(data){
      return '#work/' + data.post_name;
    }
 
-
-
-   
    /** 
-    * matches & returns a section in the self.sections array by its name 
+    * Matches & returns a section in the self.sections array by its name 
     *
     * input: @name (string) - name of the section
     * output: the section object
@@ -591,8 +734,8 @@ function AppViewModel() {
      else 
         self.nextPanelURL(null);
      
-     console.log('prev',self.prevPanelURL());
-     console.log('next',self.nextPanelURL());
+     //console.log('prev',self.prevPanelURL());
+     //console.log('next',self.nextPanelURL());
      
    }
 
@@ -650,74 +793,65 @@ function AppViewModel() {
       $(window).scrollTo($('#'+sectionAnchor), {duration: 500});        
       //console.log(sectionAnchor);      
    }
-   
-   
-   
-   
-  
-   self.log = function(elm){
-     _log('this is the element:', elm);
-   }
-   
-           
-   
-   
-   
-   
-   /* INITILIAZERS */
-   
+
+    
+    
+   /** 
+    * Sets/Gets/Renders/Initiates/Calls all the methods needed to happen before the DOM is ready. 
+    *
+    * Void()
+    */        
    self.initDOM = function(){
-     disableScroll();
-   }   
+     //disableScroll();
+     
+     
+     /* get the Sections Content before everything else */ 
+     //self.setModulesContent();           
+     
+     /* get the Sections Content before everything else */ 
+     self.setSectionsContent();           
+     
+     /* This is a special var.      
+      * It's used more for the callback function that provides. 
+      * Once everything is loaded via AJAX other stuff needs to be done. This is the place to do that.
+      * Is True if everything is loaded, and False otherwise. */     
+     self.afterAllLoaded = ko.computed(function(){ //disambiguation: this is not the same as ko.customBinding.afterAllLoaded - it probably will replace it
+        
+        //lazy load those images
+        if( self.AJAXLoaded.checkSum() == true ){ //if AJAX has Loaded to stuff           
+           $('.lazy').lazyload({
+              effect : 'fadeIn'
+           });           
+        }
+        
+     })
+     
+   }      
    
-   //prepare the DOM
+   
+   
+/*
+   var timer = window.setInterval(function(){
+      console.log(self.AJAXLoaded.checkSum());
+   }, 200)
+*/
+   
+   
+   
+   
+   
+  /********************** INITIALIZERS ***********************/
+  
+  
+     
+   /* prepare the DOM */
    self.initDOM(); 
    
-   /* get the Sections Content before everything else */ 
-   self.setSectionsContent();           
+   
   
   
   
-  
-   self.getScrollEvents = function(){
-     
-/*
-     $('section').waypoint(function(direction) {      
-       console.log($(this)[0],direction);
-     });
-*/  
-    var timer = setTimeout(function(){
 
-/*
-      var scrollorama = $.scrollorama({
-        blocks: '.scrollorama-block'
-      });
-    
-      scrollorama.animate('.scrollorama-block.home .wrapper',{
-        duration    : 1000,
-        property    : 'left',
-        easing      : 'swing',
-        start       : 700,
-        end         : 0
-      });
-*/
-    
-/*
-      scrollorama.onBlockChange(function() {
-        console.log('You just scrolled to block#'+scrollorama.blockIndex);
-      });
-*/
-    
-    
-/*         console.log('This is scrollorama',scrollorama); */
-        
-        
-        
-    }, 1000);
-    
-
-  }  
-  
   
   
   
@@ -725,7 +859,13 @@ function AppViewModel() {
   
   
 
-   /* ROUTER */
+  /*************************** ROUTER *****************************/
+  
+  
+  
+  
+  
+  
    
   //return;
   Sammy(function() {
@@ -737,7 +877,7 @@ function AppViewModel() {
       self.currentSection(self.matchSectionByName('work')); 
 
       /* get the JSON data and set the current article( currentWorkData ) */
-      getJSON('/work/'+this.params.article, self.showSingleWork);            
+      self.getJSON('/work/'+this.params.article, self.showSingleWork);            
       
       return false;
     });
@@ -749,7 +889,7 @@ function AppViewModel() {
       self.currentSection(self.matchSectionByName(this.params.section)); 
 
       /* get the JSON data and set the current article( currentWorkData ) -probably need to be changed to something more flexible */
-      getJSON('/'+this.params.section+'/'+this.params.article, self.renderPanel);            
+      self.getJSON('/'+this.params.section+'/'+this.params.article, self.renderPanel);            
       
       return false;
     });

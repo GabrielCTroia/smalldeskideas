@@ -23,11 +23,11 @@ if($_GET['getJSON']) { //spit the JSON if that's what the controller is looking 
 } else if($_GET['getTemplate']) { //spit the template if that's what is loooking for. AJAX enabled ?>
 
 <script type="text/html" id="section-home">
-
-	<section id="home" class="home scrollorama-block" data-bind="with: data, curtainize: true">
+   
+	<section id="home" class="home" data-bind="with: data">
 	
 	  <div class="wrapper">
-  	  
+  	    	  
   	  <!-- article -->
    		<article>
    		
@@ -37,19 +37,19 @@ if($_GET['getJSON']) { //spit the JSON if that's what the controller is looking 
             
             <div class="row links">
                
-               <div class="span4 link">
-                  <a class="link-in" href="#what-i-know"><h2>See<br/> What I know</h2></a>
+               <div class="span4 nomargin link">
+                  <a class="link-in" href="#what-i-know"><h2 data-bind="text: $root.currentSection.name">See<br/> What I know</h2></a>
                </div>
                
-               <div class="span4">
+               <div class="span4 nomargin link">
                   <a href="#what-can-i-do"><h2>See<br/> What I can do</h2></a>
                </div>
                
-               <div class="span4">
+               <div class="span4 nomargin link">
                   <a href="#who-am-i"><h2>See<br/> Who I am</h2></a>
                </div>               
                
-            </div>
+            </div>   			  
    			  
    		</article>
    		<!-- /article -->
@@ -57,9 +57,9 @@ if($_GET['getJSON']) { //spit the JSON if that's what the controller is looking 
   	  
 	  </div> <!-- /wrapper -->
     
-    <a href="#" id="handlerArea" class="handlerArea" data-bind="click: function(){console.log($parent.isCurtainDown(!$parent.isCurtainDown()))}">
+    <div href="#" id="handlerArea" class="handlerArea">
       <div class="arrow"></div>
-    </a>
+    </div>
     	
 	</section>
 
@@ -72,15 +72,15 @@ get_header(); ?>
 	<section class="home">
 	
 	  <div class="wrapper">
+	  <!-- <div class="cube"></div>   -->
 	
     <?php if (have_posts()): while (have_posts()) : the_post(); ?>
    
-   
+         <?php if(has_post_thumbnail()): ?>
 	      <div class="thumb">
 	         <?php the_post_thumbnail('large',array('class' => 'circle')); ?>
 	      </div>
-
-         <div class="arrow"></div>
+	      <?php endif; ?>
    		<!-- article -->
    		<article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
    		   
@@ -90,16 +90,16 @@ get_header(); ?>
             
             <div class="row links">
                
-               <div class="span4">
-                  <a href="#"><h2>See<br/> What I know</h2></a>
+               <div class="span4 ifJsHide" data-bind="fadeVisible: $root.sectionsAssoc().skills.data">
+                  <a href="/#skills"><h2>See<br/> What I know</h2></a>
                </div>
                
-               <div class="span4">
-                  <a href="#"><h2>See<br/> What I can do</h2></a>
+               <div class="span4 ifJsHide" data-bind="fadeVisible: $root.sectionsAssoc().work.data">
+                  <a href="/#work"><h2>See<br/> What I can do</h2></a>
                </div>
                
-               <div class="span4">
-                  <a href="#"><h2>See<br/> Who I am</h2></a>
+               <div class="span4 ifJsHide" data-bind="fadeVisible: $root.sectionsAssoc().work.data">
+                  <a href="/#work"><h2>See<br/> Who I am</h2></a>
                </div>               
                
             </div>
@@ -122,8 +122,18 @@ get_header(); ?>
   	<?php endif; ?>
   			
   	</div> <!-- /wrapper -->
+  	
+  	<div class="loader"></div>
 	
 	</section><!-- /home -->
+	
+	<?php 
+	
+	   /* B/C I'm not loading the home page with KO anymore I point the WordPress' home page to this page and include the loader here. */
+	   
+	   include( __DIR__ .'/loader.php');   	
+   	
+	?>
 	
 <?php get_footer(); ?>
 

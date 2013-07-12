@@ -473,18 +473,69 @@ function html5_shortcode_demo_2($atts, $content = null) // Demo Heading H2 short
 /* CUSTOM FUNCTIONS */
 
 
+function getSkillData($skill){
+   
+/*
+   var_dump($skill);
+   return;
+*/
+   /* get the skill permalink */
+   $skill->term_link        = get_term_link($skill->name,'post_tag');
+              
+   /*
+   Get all the posts that have the current tag.
+   inspired from: http://www.wprecipes.com/how-to-show-related-posts-without-a-plugin  
+   */
+   $postsInTag = new WP_Query(
+      array(
+         'tag__in'            => $skill->term_id   
+        //,'caller_get_posts'   => 1 //not sure what this is      
+      )
+   );  
+   
+   /* store all the post_date in this $postDates array, to be parsed later in order to find the oldest date */
+   $postsDates = array_map( function($item){ //this is really cool. I didn't know you can have anonymous functions like in JS
+      return $item->post_date;                                             
+   },$postsInTag->posts);
+   
+   /* get the oldest post which actually represents the skill experience */ 
+   $skill->projectOldestDate = min($postsDates);
+   $skill->experience        = _ago(strtotime($skill->projectOldestDate),0,false); 
+   
+   /* I can also get the lines of code, but it's fine for now */
+   //$skill->linesOfCode      = 3400;
+   
+   /* get the score number */            
+   $skill->score       = calculateScore($skill->tag_name, $skill->projectOldestDate,$skill->count);     
+   
+   /* get the score string based on the score number */
+   $skill->scoreString = sprintf(theScoreString($skill->score),'<span class="skill-name">' . $skill->name . "</span>");
+   
+   /* get the rotational degree based on the score number */
+   $skill->rotationDeg = $skill->score * 3.6;
+   
+   /* get the formula of the score math */
+   $skill->formula     = calculateScore($skill->tag_name, $skill->projectOldestDate,$skill->count,null,true);
+      
+   return $skill;
+}
+
+
+
+
+
 /**
  * info  :  
  * input : @args - array of argments
  * output: array of the posts within the given tags   
  */
-function get_category_tags($args) {
+function getCategoryTags($args) {
 	global $wpdb;
 
   //THIS SQL IS FUCKING AWESOME - found here: http://wordpress.org/support/topic/get-tags-specific-to-category	                
 	        
   $sql = "
-    SELECT DISTINCT terms2.term_id as tag_id, terms2.name as tag_name, t2.count
+    SELECT DISTINCT terms2.term_id as term_id, terms2.name as name, t2.count
 		FROM
 			wp_posts as p1
 			LEFT JOIN wp_term_relationships as r1 ON p1.ID = r1.object_ID
@@ -533,7 +584,7 @@ function ago($time)
    return "$difference $periods[$j] ago ";
 }
 
-function _ago($tm,$rcs = 0) {
+function _ago($tm,$rcs = 0,$suffix=true) {
    $cur_tm = time(); $dif = $cur_tm-$tm;
    /* $pds = array('s','m','h','d','w','M','Y','D'); */
    $pds = array('seconf','minute','hour','day','week','month','year','decade');
@@ -541,26 +592,181 @@ function _ago($tm,$rcs = 0) {
    for($v = sizeof($lngh)-1; ($v >= 0)&&(($no = $dif/$lngh[$v])<=1); $v--); if($v < 0) $v = 0; $_tm = $cur_tm-($dif%$lngh[$v]);
 
    $no = floor($no); 
-   if($no <> 1) $pds[$v] .='s'; 
-   $x=sprintf("%d %s ",$no,$pds[$v]);
-   if(($rcs == 1)&&($v >= 1)&&(($cur_tm-$_tm) > 0)) $x .= time_ago($_tm);
-   return $x .'ago';
+   if($no <> 1) 
+      $pds[$v] .='s'; 
+
+   $x = sprintf("%d %s ",$no,$pds[$v]);
+
+   if(($rcs == 1)&&($v >= 1)&&(($cur_tm-$_tm) > 0)) 
+      $x .= time_ago($_tm);
+      
+      
+   if($suffix)
+      return $x .'ago';
+   else 
+      return $x;
 }
+
+
+
 
 
 
 /**
  * Calculates the score using a set algorithm.
  * 
- * input: @linesOfCode as int - the numbers of code lines
- *        @years       as int - the number of years with the skill
- *        @projects    as int -the number of the projects I've been working on  
+ * input: @skillName (String)       - the skill name
+ *        @projectsCount(Int)       - the number of the projects I've been working on  
+ *        @$skillDate (Date)        - the date of the 1st encountered project with the sill
+ *        @linesOfCode (Int)        - the number of code lines
  *
  * output: int between 0 and 100 represnting the level            
  */
-function calculateScore($linesOfCode,$years,$projects){
+function calculateScore($skillName, $skillDate = null, $projectsCount = null, $linesOfCode = null, $spitFormula = false){
     
-    return rand(0,100);
+    $skill = new StdClass();
+   
+       $skill->difficulty = 0;
+       $skill->importance = 0;
+        
+    $projectsGrade         = 0;
+    $experienceGrade       = 0;
+    
+    /* convert the $skillDate to days since I know the skill */          
+    $experienceInDays = floor((time() - strtotime($skillDate)) / 86400);
+    
+    
+    //return ( time() - $skillDate ) / 86400;
+    /* another aproach of dealing with dates - found here http://stackoverflow.com/questions/8063057/convert-this-string-to-datetime */
+      //$date = date_create_from_format('Y-m-d H:i:s', '2013-07-12 16:19:50');
+      //return ($now - $date->getTimestamp()) /86400;
+    
+    /* The grades are given from 1 to 10 */
+    
+    /* give the skills their own grade, depending on the difficulty level (this is totally subjective) */
+    switch(strtolower($skillName)){
+       
+       case 'php' : 
+         $skill->difficulty = 8;
+         $skill->importance = 9;                         
+         break;
+         
+       case 'javascript' : 
+         $skill->difficulty = 7.5;
+         $skill->importance = 8.5;
+         break;
+         
+       case 'css' : 
+         $skill->difficulty = 6;
+         $skill->importance = 8.3;
+         break;
+         
+       case 'html' : 
+         $skill->difficulty = 4;
+         $skill->importance = 10;
+         break;         
+         
+       case 'wordpress' : 
+         $skill->difficulty = 4.2;
+         $skill->importance = 4.5;
+         break;
+         
+       case 'joomla' : 
+         $skill->difficulty = 5;
+         $skill->importance = 4.5;
+         break;
+         
+       case 'drupal' : 
+         $skill->difficulty = 5.4;
+         $skill->importance = 4.5;
+         break;
+         
+       default : 
+         $skill->difficulty = 1.5;
+         $skill->importance = 1.5;
+         break; 
+       
+    }
+
+
+    
+    /* give the grade according to the Projects Count */
+    if($projectsCount)          
+      switch($c = $projectsCount){
+         
+         case ($c > 18)  : $projectsGrade = 10;
+            break;
+         
+         case ($c > 15)  : $projectsGrade = 9;
+            break;
+         
+         case ($c > 12)  : $projectsGrade = 8;
+            break;
+            
+         case ($c > 9)   : $projectsGrade = 7;
+            break;
+            
+         case ($c > 7)   : $projectsGrade = 6;
+            break;            
+            
+         case ($c > 5)   : $projectsGrade = 5;
+            break;            
+            
+         case ($c > 3)   : $projectsGrade = 4;
+            break;                        
+            
+         case ($c > 2)   : $projectsGrade = 3;
+            break;                           
+            
+         case ($c > 1)   : $projectsGrade = 2;
+            break;                                             
+            
+         default         : $projectsGrade = 1;
+            break;
+      }
+    
+    /* give the grade according to the Experience Count */
+    if($experienceInDays) 
+      switch($e = $experienceInDays){
+         
+         case ($e > 1200)  : $experienceGrade = 10;
+            break;    
+            
+         case ($e > 900)   : $experienceGrade = 9;
+            break;    
+    
+         case ($e > 600)   : $experienceGrade = 8;
+            break;        
+            
+         case ($e > 360)   : $experienceGrade = 7;
+            break;                
+
+         case ($e > 180)   : $experienceGrade = 6;
+            break;    
+    
+         case ($e > 90)    : $experienceGrade = 5;
+            break;        
+            
+         case ($e > 60)    : $experienceGrade = 4;
+            break;
+            
+         case ($e > 30)    : $experienceGrade = 3.5;
+            break;                            
+            
+         case ($e > 20)    : $experienceGrade = 2.5;
+            break;            
+            
+         default           : $experienceGrade = 1;
+            break;            
+    
+      }
+
+    $result = ($experienceGrade * 2) + ($projectsGrade * 4) + ($skill->difficulty * 2) + ($skill->importance * 2);
+
+    if($spitFormula)
+      return '(' . $experienceGrade . ' * 2) + (' . $projectsGrade . ' * 4) + (' . $skill->difficulty . ' * 2) + (' . $skill->importance . ' * 2) = ' . $result;
+
+    return $result;
 }
 
 
@@ -570,7 +776,17 @@ function calculateScore($linesOfCode,$years,$projects){
  */
 function theScoreString($score){
 
-  $scoreArray = array('Just Started learning %s','Still learning %s','I know the Basics of %s','I can find my way with %s','I enjoy %s already','%s is one of my favorites','I can do cool stuff in %s','Can ride %s with no handlebars','I don\'t even need to look when coding in %s','I\'m the sh*t at %s');
+  $scoreArray = array(
+                'Just Started playing with %s'
+               ,'Still learning %s'
+               ,'I know the Basics of %s'
+               ,'I can find my way with %s'
+               ,'I enjoy %s already'
+               ,'%s is one of my favorites'
+               ,'I can do cool stuff in %s'
+               ,'Can ride %s with no handlebars'
+               ,'I don\'t even need to look when coding in %s'
+               ,'I\'m the sh*t at %s');
   
   return $scoreArray[floor($score/10)];
 }
@@ -608,10 +824,19 @@ function get_post_id_by_slug( $slug) {
             'name' => $slug
         )
     );
-
     $query->the_post();
-
     return get_the_ID();
 }
+
+
+
+function my_conversion(){
+   
+   echo "uisuadiaudioa";
+   exit; 
+   
+}
+
+add_action( ‘wpcf7_before_send_mail’, ‘my_conversion’ );
 
 ?>

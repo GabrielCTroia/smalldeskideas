@@ -219,8 +219,10 @@ function wpcf7_contact_form_tag_func( $atts, $content = null, $code = '' ) {
 	return $form;
 }
 
+/* smalldeskidas hack - take jquery 1.8 out
 if ( WPCF7_LOAD_JS )
 	add_action( 'wp_enqueue_scripts', 'wpcf7_enqueue_scripts' );
+*/
 
 function wpcf7_enqueue_scripts() {
 	// jquery.form.js originally bundled with WordPress is out of date and deprecated
@@ -246,9 +248,12 @@ function wpcf7_enqueue_scripts() {
 		$_wpcf7['cached'] = 1;
 
 	wp_localize_script( 'contact-form-7', '_wpcf7', $_wpcf7 );
-
+   
 	do_action( 'wpcf7_enqueue_scripts' );
 }
+
+//wpcf7_enqueue_scripts();
+
 
 function wpcf7_script_is() {
 	return wp_script_is( 'contact-form-7' );

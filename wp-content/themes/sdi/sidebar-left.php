@@ -27,7 +27,7 @@
                     <div class="table-cell">
                       
                       <h5 data-bind="text: name"></h5>
-                      
+                      <span data-bind-not-used="text: score"></span>                      
                     </div> <!-- /table-cell -->
                     
                   </div> <!-- /table -->
@@ -36,11 +36,16 @@
                 
                 <div class="ring" data-bind="renderSkill: $data">
                   
-                   <div class="ring-wrapper">
-                      <div class="pie rotated" style=""></div>
-                      <div class="pie fill" style=""></div>               
+                   <div class="pie-wrapper spinner">
+                      <div class="pie spinner"></div>
+                      <div class="clipper"></div>
                    </div>               
                    
+                   <div class="pie-wrapper fill">
+                      <div class="pie" style=""></div>               
+                   </div>
+                   
+                   <div class="clipper out"></div>
                    <div class="pie trace"></div>                                 
                    <div class="pie background"></div>
                   

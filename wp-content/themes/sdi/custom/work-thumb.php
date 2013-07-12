@@ -11,7 +11,9 @@
          <!-- post thumbnail -->
    		<div class="thumb">
    		   <!-- ko if: thumbnail -->
-   		      <div data-bind="html: thumbnail"></div>
+   		      <div>
+      		      <img class="lazy" src="" data-bind="attr: {'data-original': thumbnail}" />
+   		      </div>
    		   <!-- /ko -->
    		   <!-- ko ifnot: thumbnail -->
       		   <span>&#60;/no thumb&#62;</span>

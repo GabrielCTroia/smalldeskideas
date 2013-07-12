@@ -27,17 +27,13 @@ if($_GET['getJSON']) { //spit the JSON if that's what the controller is looking 
 
          $postData->works        = $works->posts;
          
-         foreach($postData->works as $work):            
-               
-            $work->permalink   = get_permalink($work->ID);
-            $work->thumbnail   = get_the_post_thumbnail($work->ID,large); //this should be just the url
-            $work->ago         = _ago(date($work->post_date)); //this needs to return the proper date
+         foreach($postData->works as $work):                           
+            $work->permalink   = get_permalink($work->ID);            
+            //return just the URL of the thumb - found here: http://wordpress.org/support/topic/getting-post-thumbnail-url
+            $work->thumbnail   = wp_get_attachment_image_src(get_post_thumbnail_id($work->ID),'large');             
+              $work->thumbnail = $work->thumbnail[0];
+            $work->ago         = _ago(strtotime($work->post_date)); //this needs to return the proper date
             $work->skills      = wp_get_post_tags($work->ID);
-               
-            //$data = new stdClass();
-            //$data->data = $work;
-            
-            //array_push( $postData->works, $data);
          
          endforeach;
       
@@ -59,7 +55,7 @@ if($_GET['getJSON']) { //spit the JSON if that's what the controller is looking 
    
    <!-- ko with: data -->
    
-   <section class="scrollorama-block" data-bind="attr: {id: post_name}">
+   <section data-bind="attr: {id: post_name}">
       
       <div class="wrapper">
          

@@ -1,4 +1,4 @@
-<?php /* Template Name: Loader */ get_header(); 
+<?php /* Template Name: Loader */ //get_header(); 
    
    //load the section templates
    
@@ -16,29 +16,18 @@
    $_GET['getTemplate'] = false; //reset it to false to be able to load the JSON
 
 ?>   
-<!--
-
-  <script type="text/html" id="template-panel">
-    
-    <div class="panel" data-bind="with: currentPanel">
-      
-      <a href="#" data-bind="attr: {href: $root.closePanel}"></a>
-      
-      <a href="#" data-bind="attr: {href: $root.prevPanelChild}"></a>
-      
-      <a href="#" data-bind="attr: {href: $root.nextPanelChild}"></a>
-      
-    </div>
-  
-  </script>
--->
-
+      	   	
+   <!-- main -->		
+	<div class="main ifJsHide" data-bind="afterAllLoaded: true">
+   
    <!-- ko template: {  name: getSectionTemplate
                        ,foreach: sections } -->   
    <!-- /ko -->
+   
+	</div> <!-- /main -->
    
    <!-- ko template: 'single-work' -->
    <!-- /ko -->
   
 
-<?php get_footer(); ?>
+<?php //get_footer(); ?>

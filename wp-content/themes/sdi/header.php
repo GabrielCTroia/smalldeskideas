@@ -1,4 +1,3 @@
-<?php if($_POST['AJAX'] == true) return; ?>
 
 <!doctype html>
 <html <?php language_attributes(); ?> class="no-js">
@@ -34,36 +33,8 @@
 			conditionizr();
 		})();
 		</script>
+		
 	</head>
 	<body <?php body_class(); ?>>
-	
-	   <!-- main -->		
-		<div class="main">
-   	
-   		<!-- header -->
-   		<header class="header clearfix" role="banner">
-   			  
-   			  <div class="wrapper">
    
-   					<!-- logo -->
-   					<div class="logo">
-   						<a href="<?php echo home_url(); ?>">
-                  <?php //bloginfo('title'); ?>
-                  smalldesk<span class="bold">Ideas</span>
-   						</a>
-   					</div>
-   					<!-- /logo -->
-   					
-   					<!-- nav -->
-   					<nav class="nav clearfix" role="navigation">
-   						<?php html5blank_nav(); ?>
-   					</nav>
-   					<!-- /nav -->
-   
-   			  </div>
-   		
-   		</header>
-   		<!-- /header -->
-   
-         <!-- wrapper -->
-<!--    		<div class="wrapper"> -->
+   <?php include_once( __DIR__ . '/custom/headerModule.php' );?>

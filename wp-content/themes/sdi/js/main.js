@@ -369,8 +369,6 @@ ko.bindingHandlers.renderPanel = {
 
 
 
-
-
 ko.bindingHandlers.renderSkill = {
 
   init: function(element, valueAccessor, allBindingsAccessor, viewModel,bindingContext){
@@ -379,40 +377,60 @@ ko.bindingHandlers.renderSkill = {
     
     // the rotation degree is the score times 3.6
     var rotateDegree = 3.6 * value.score;
+
+    if(rotateDegree > 180)
+      $(element).addClass('gt50');
     
-    //apply the new rotation degree to the .pie that is rotated 
+    $(element).find('.pie-wrapper.spinner').css({'-webkit-transform' : 'rotate(' + rotateDegree + 'deg)'});      
+
+    return; //this in not working yet - to be fixed in the next iteration
+    
     
     /* Show the other half of the pie if the score is higher than half and it's not shown already*/
-    
-    if(rotateDegree > 180)
-      $(element).addClass('gt50'); //doesn't work yet. need to find a way to track the css animation
-
     //need to do this animation only when the elements are visible  
     var timer = setTimeout(function(){
-       $(element).find('.pie-wrapper.spinner').css({'-webkit-transform' : 'rotate(' + rotateDegree + 'deg)'});   
-    }, 500);
-    
-    
-    
-/*
-    $(element).find('.pie-wrapper.spinner').animate(
-        {rotation: rotateDegree},
-        {
-          duration: 1500,
-          easing: 'swing',
-          step: function(now, fx) {
+       
+       //make sure the calculated degree is bigger than half
+       if(rotateDegree > 180){
+           
+           
+         /* Animate the rotattion - not working yet. The clipper is fading than it's coming back */
+         
+         //the ratio between the rotateDegree and 180 
+         var percentageRatio     = rotateDegree/180
             
+         //create a unique css animation for each element
+         var cssAnimation        = document.createElement('style');
+             cssAnimation.type   = 'text/css'
             
-            if(now > 180 && this.hasGT50 == undefined){
-               $(this).parents('.ring').addClass('gt50');
-               this.hasGT50 = true;
-            }
-               
-            $(this).css({"transform": "rotate("+now+"deg)"});
-          }
-        }
-    );
-*/
+         //get the name from the element's id
+         var animationName       = 'hide-' + $(element).parents('.skill').attr('id');         
+            
+         //create the animation rules
+         var rules               = document.createTextNode('@-webkit-keyframes ' + animationName + ' {' +
+                                    '0% { opacity:1; }' + ' ' +
+                                    100/percentageRatio + '% { opacity:0; }' +
+                                 '}');
+         
+         /* append it to the dom */
+         cssAnimation.appendChild(rules);
+         document.getElementsByTagName("head")[0].appendChild(cssAnimation);
+
+         //add the animation-name to the clipper.out
+         $(element).find('.clipper.out').css({'-webkit-animation-name' : animationName});
+         
+         //add the animation-name to the pie-wrapper.fill
+         //$(element).find('.pie-wrapper.fill').css({'-webkit-animation-name' : 'showMe'});
+       }
+       
+       //tried to see if a a delay could solve the issue - nope
+       setTimeout(function(){
+           //apply the new rotation degree to the .pie that is rotated s
+          $(element).find('.pie-wrapper.spinner').css({'-webkit-transform' : 'rotate(' + rotateDegree + 'deg)'});      
+       }, 2)
+       
+       
+    }, 2000);
 
   }
 
@@ -762,27 +780,6 @@ function AppViewModel() {
     }, 500);
      
    }
-  
-  
-   /** 
-    * if the skill score is bigger than 50 append the 'gt50' class to the skill HTML element 
-    *
-    * input: @skill (object)      - the skill 
-    *        @elm (HTML object)   - the skill HTML element
-    * 
-    * output: Void.
-    */
-   self.getSkillClassGT50 = function(skill,elm){
-     if (skill.score > 50)
-       return $(elm).attr('class') + ' ' + 'gt50';      
-     else
-      return false;
-   }
-  
-   self.getSkillRotationDegree = function(skill){
-     return 
-   }
-  
 
    /** 
      * Animates a scroll to the section's position on the same page.

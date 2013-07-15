@@ -50,7 +50,7 @@ echo "<pre>";
          
          <div class="skills-grid row" data-bind="foreach: skills">
             
-            <div class="span2 box skill">       
+            <div class="span2 box skill" data-bind="attr: {id: 'skill-'+$index()}">       
                
                <div class="box-wrapper">
                   
@@ -62,7 +62,7 @@ echo "<pre>";
                            <div class="shown">
                               
                               <h2 data-bind="html: scoreString"></h2>
-                              <span data-bind-not-used="text: score"></span>
+                              <span data-bind-not-used="text: formula"></span>
                            </div> <!-- /shown -->
                            
                            <div class="details hidden">                              

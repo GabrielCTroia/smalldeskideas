@@ -120,14 +120,19 @@ input::-webkit-input-placeholder,textarea::-webkit-input-placeholder{color:#999}
 .ring .pie-wrapper{position:absolute;width:100%;height:100%;background:inherit;}
 .ring .pie-wrapper .clipper{left:50%}
 .ring .pie{position:absolute;width:100%;height:100%;-moz-border-radius:50%;-webkit-border-radius:50%;border-radius:50%;-webkit-font-smoothing:antialiased;font-smoothing:antialiased;text-rendering:optimizeLegibility;background:#30a0c8}
-.ring .pie-wrapper.fill{left:50%;width:50%;display:none;overflow:hidden;}
+.ring .pie-wrapper.fill{left:50%;width:50%;-moz-opacity:0;-khtml-opacity:0;opacity:0;filter:alpha(opacity=0);overflow:hidden;}
 .ring .pie-wrapper.fill .pie{width:200%;left:-100%}
-.ring .pie-wrapper.spinner{-webkit-transition:all 2s;transition:all 2s}
 .ring .pie.background{background:inherit;width:90%;height:90%;top:5%;left:5%;z-index:101}
 .ring .pie.trace{-moz-opacity:.3;-khtml-opacity:.3;opacity:.3;filter:alpha(opacity=30);z-index:100}
+.clipper.out{-webkit-animation-duration:2s;-webkit-animation-timing-function:ease-in-out;-webkit-animation-fill-mode:forwards}
+.pie-wrapper.fill{-webkit-animation-duration:2s;-webkit-animation-timing-function:ease-in-out;-webkit-animation-fill-mode:forwards}
 .ring.gt50 .clipper.out{display:none}
 .ring.gt50 .pie-wrapper.fill{display:block}
-.dropdown{position:relative}
+@-webkit-keyframes hideMe{0%{opacity:1}
+100%{opacity:0}
+}@-webkit-keyframes showMe{0%{opacity:0}
+100%{opacity:1}
+}.dropdown{position:relative}
 .dropdown-toggle{padding-right:10px}
 .dropdown-menu{position:absolute;background:#fff;font-size:13px;z-index:9999;min-width:140px;width:100%;top:3em;box-shadow:1px 1px 10px #bbb;text-align:left;}
 .dropdown-menu li{border-top:1px solid #eaeaea;}
